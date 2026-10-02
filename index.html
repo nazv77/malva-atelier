@@ -1,0 +1,632 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Malva Atelier">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<title>Malva Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Jost:wght@300;400;500&display=swap">
+<style>
+/* Layout: studio page — screen index on the left, live phone on the right; second mode lays all screens out as a mockup sheet. */
+:root{
+  --bg:#EDEAE8; --surface:#F8F6F5; --fg:#1D191B; --muted:#756D70; --line:#DAD3D1; --accent:#9A6A6F;
+  --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --body:"Jost","Futura","Avenir Next","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1A1719; --surface:#242022; --fg:#EFE9EB; --muted:#A39A9E; --line:#3A3437; --accent:#D6A7AC; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1A1719; --surface:#242022; --fg:#EFE9EB; --muted:#A39A9E; --line:#3A3437; --accent:#D6A7AC; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5;padding-inline:16px;padding-block:28px 56px}
+.wrap{max-width:1180px;margin:0 auto}
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:28px}
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(40px,6vw,68px);line-height:1;margin:.15em 0 .1em;letter-spacing:-.01em;text-wrap:balance}
+h1 em{color:var(--accent)}
+.lead{max-width:60ch;color:var(--muted);margin:0}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
+.seg button{font:inherit;font-size:13px;letter-spacing:.06em;border:0;background:transparent;color:var(--muted);padding:8px 18px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.seg button:focus-visible,.idx button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.proto{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;align-items:start}
+.idx{display:flex;flex-direction:column;gap:2px;max-width:440px}
+.idx button{all:unset;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:11px 14px;border-radius:12px;border:1px solid transparent}
+.idx button:hover{background:var(--surface)}
+.idx button[aria-current="true"]{background:var(--surface);border-color:var(--line)}
+.idx .n{font-family:var(--display);font-size:19px}
+.idx .d{grid-column:1/-1;font-size:13px;color:var(--muted);line-height:1.45}
+.stage{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:2px 9px;align-self:center;color:var(--muted)}
+.stage.mvp{color:var(--accent);border-color:var(--accent)}
+.note{font-size:12.5px;color:var(--muted);margin-top:18px;padding:0 14px;max-width:48ch}
+.note b{font-weight:500;color:var(--fg)}
+
+.sheet{display:flex;flex-wrap:wrap;gap:28px 22px;justify-content:center}
+.mini{display:flex;flex-direction:column;gap:10px;align-items:center;cursor:pointer;background:none;border:0;font:inherit;color:inherit;padding:0}
+.mini .box{width:266px;height:558px;overflow:hidden}
+.mini .box .phone{transform:scale(.7);transform-origin:top left;pointer-events:none}
+.mini .cap{font-family:var(--display);font-size:17px;text-align:center}
+.mini .cap small{display:block;font-family:var(--body);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.mini:focus-visible .box{outline:2px solid var(--accent);outline-offset:4px;border-radius:52px}
+.phone-host{max-width:100%;overflow:hidden}
+.phone-host .phone{transform-origin:top left}
+
+/* ---------- Phone: brand-fixed light palette in both page themes ---------- */
+.phone{
+  --p-bg:#FFFFFF; --p-photo:#F3F2F0; --p-ink:#1D191B; --p-muted:#8A8386; --p-line:#ECE8E6;
+  --p-powder:#F5E9E6; --p-greige:#EEEAE5; --p-rose:#9A6A6F; --p-ok:#5E8A6E;
+  width:380px;height:797px;border-radius:54px;background:#151214;padding:11px;position:relative;flex:none;color:var(--p-ink);
+  box-shadow:0 30px 60px -30px rgba(29,25,27,.5),0 0 0 1px rgba(255,255,255,.06) inset}
+.scr{position:relative;width:100%;height:100%;border-radius:44px;overflow:hidden;background:var(--p-bg);display:flex;flex-direction:column}
+.status{height:46px;flex:none;display:flex;justify-content:space-between;align-items:center;padding:0 30px 0 34px;font-size:14px;font-weight:500;position:relative;z-index:6}
+.status.ov{position:absolute;left:0;right:0;top:0;color:#fff}
+.status.ov svg rect{fill:#fff}
+.status .isl{position:absolute;left:50%;top:10px;transform:translateX(-50%);width:108px;height:30px;background:#151214;border-radius:20px}
+.status .sig{display:flex;gap:5px;align-items:center}
+.body{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 20px 24px;scrollbar-width:none;position:relative}
+.body::-webkit-scrollbar{display:none}
+.tabbar{flex:none;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 10px 24px;border-top:1px solid var(--p-line);background:var(--p-bg)}
+.tabbar button{all:unset;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--p-muted)}
+.tabbar button.on{color:var(--p-ink)}
+.tabbar button.on svg{stroke:var(--p-rose)}
+.ico{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ico.s{width:18px;height:18px}
+.toast{position:absolute;left:20px;right:20px;bottom:96px;background:var(--p-ink);color:#fff;font-size:13px;padding:12px 16px;border-radius:14px;display:flex;gap:10px;align-items:center;z-index:10;animation:tin .25s ease}
+.toast .ico{stroke:#E8C7C3}
+@keyframes tin{from{transform:translateY(8px);opacity:.6}to{transform:none;opacity:1}}
+
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:6px 0 12px;position:sticky;top:0;background:var(--p-bg);z-index:4;margin:0 -20px;padding-inline:14px}
+.hdr .t{font-size:11px;letter-spacing:.22em;text-transform:uppercase}
+.logo{font-family:var(--display);font-size:20px;letter-spacing:.24em;text-transform:uppercase;padding-left:6px}
+.ib{all:unset;cursor:pointer;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;position:relative}
+.ib .dot{position:absolute;top:8px;right:9px;width:7px;height:7px;border-radius:50%;background:var(--p-rose)}
+.ib .cnt{position:absolute;top:4px;right:2px;min-width:16px;height:16px;border-radius:8px;background:var(--p-ink);color:#fff;font-size:9.5px;display:grid;place-items:center}
+.k{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--p-muted)}
+.dsp{font-family:var(--display);font-weight:400;line-height:1.08;margin:0;text-wrap:balance}
+.it{font-style:italic}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin:28px 0 12px}
+.sec h3{font-family:var(--display);font-weight:400;font-size:21px;margin:0}
+.sec a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--p-muted);cursor:pointer}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:50px;border-radius:999px;background:var(--p-ink);color:#fff;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.btn.gh{background:transparent;color:var(--p-ink);border:1px solid var(--p-ink)}
+.btn.lt{background:#fff;color:var(--p-ink)}
+.btn.sm{height:42px;font-size:11px}
+.btns{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:7px 13px;border-radius:999px;border:1px solid var(--p-line);background:#fff;white-space:nowrap;cursor:pointer}
+.chip.on{background:var(--p-ink);color:#fff;border-color:var(--p-ink)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px}
+.chips::-webkit-scrollbar{display:none}
+.ph{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;background:var(--p-photo);border-radius:4px}
+.price{font-variant-numeric:tabular-nums}
+.badge{position:absolute;left:8px;top:8px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.92);padding:4px 8px;border-radius:999px}
+.rel{position:relative}
+
+.hero{margin:0 -20px;position:relative;cursor:pointer;height:560px;overflow:hidden;background:var(--p-photo)}
+.hero img{width:100%;height:100%;object-fit:cover;object-position:center 18%}
+.hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 48%,rgba(20,14,16,.62) 100%)}
+.hero .tx{position:absolute;left:22px;right:22px;bottom:22px;color:#fff}
+.hero .k{color:rgba(255,255,255,.85)}
+.hero .logo{position:absolute;top:52px;left:0;right:0;text-align:center;color:#fff;padding:0}
+.cd{display:flex;gap:6px;margin:14px 0 16px;font-variant-numeric:tabular-nums}
+.cd span{background:rgba(255,255,255,.16);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:6px 8px;font-size:19px;font-family:var(--display);min-width:48px;text-align:center}
+.cd small{display:block;font-family:var(--body);font-size:9px;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
+.quote{font-family:var(--display);font-style:italic;font-size:17px;line-height:1.4;margin:26px 4px 0;color:var(--p-ink)}
+.quote small{display:block;font-family:var(--body);font-style:normal;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--p-muted);margin-top:8px}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{border-radius:16px;padding:14px;background:var(--p-greige);cursor:pointer;display:flex;flex-direction:column;gap:16px}
+.tile b{font-weight:500;font-size:14px;display:block}
+.tile span{font-size:12px;color:var(--p-muted);line-height:1.35}
+.tile .ico{stroke:var(--p-rose)}
+.msgprev{display:flex;gap:12px;align-items:center;padding:14px;border-radius:16px;background:var(--p-powder);cursor:pointer}
+.av{width:44px;height:44px;border-radius:50%;flex:none;background:linear-gradient(140deg,#D9B3B2,#A87C82);display:grid;place-items:center;color:#fff;font-family:var(--display);font-size:18px}
+.msgprev p{margin:0;font-size:13px;line-height:1.4}
+.hs{display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:0 20px;scrollbar-width:none;scroll-snap-type:x mandatory}
+.hs::-webkit-scrollbar{display:none}
+.pc{cursor:pointer;display:flex;flex-direction:column;gap:6px;min-width:0}
+.hs .pc{width:138px;flex:none;scroll-snap-align:start}
+.pc .nm{font-size:12.5px;line-height:1.3}
+.pc .nm small{display:block;color:var(--p-muted);font-size:11.5px}
+.pc .price{font-size:12.5px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px 10px}
+.season{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--p-line);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.season button{all:unset;cursor:pointer;padding:10px 12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--p-muted);line-height:1.3}
+.season button small{display:block;font-family:var(--display);font-style:italic;font-size:13.5px;letter-spacing:0;text-transform:none;margin-top:2px}
+.season button.on{background:var(--p-ink);color:#fff}
+.count{font-size:11.5px;color:var(--p-muted);margin:12px 0 0}
+
+.gal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -20px;scrollbar-width:none;background:var(--p-photo)}
+.gal::-webkit-scrollbar{display:none}
+.gal img{flex:none;width:100%;aspect-ratio:2/3;object-fit:cover;scroll-snap-align:start}
+.galn{display:flex;justify-content:center;gap:6px;margin-top:10px}
+.galn i{width:5px;height:5px;border-radius:50%;background:var(--p-line)}
+.galn i.on{background:var(--p-ink)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sizes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sizes span{border:1px solid var(--p-line);border-radius:12px;height:44px;display:grid;place-items:center;font-size:13px;background:#fff;position:relative;cursor:pointer}
+.sizes span small{position:absolute;bottom:3px;font-size:8.5px;color:var(--p-muted);letter-spacing:.04em}
+.sizes span.ai{border-color:var(--p-rose);color:var(--p-rose)}
+.sizes span.ai::after{content:"AI";position:absolute;top:-8px;right:-4px;font-size:8.5px;letter-spacing:.1em;background:var(--p-rose);color:#fff;padding:1px 5px;border-radius:6px}
+.ailine{display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:14px;background:var(--p-powder);font-size:12.5px;line-height:1.4;margin-top:12px;cursor:pointer}
+.ailine .ico{stroke:var(--p-rose)}
+.desc{font-size:13px;line-height:1.55;margin:14px 0 0;color:#3A3336}
+.lang{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--p-muted);margin-top:4px}
+dl.fl{margin:14px 0 0;display:grid;grid-template-columns:auto 1fr}
+dl.fl dt,dl.fl dd{margin:0;padding:10px 0;border-bottom:1px solid var(--p-line);font-size:12.5px}
+dl.fl dt{color:var(--p-muted);padding-right:14px}
+dl.fl dd{text-align:right}
+.mono{font-variant-numeric:tabular-nums;letter-spacing:.02em}
+
+.tryrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.slot{position:relative;border-radius:14px;overflow:hidden;background:var(--p-photo);aspect-ratio:2/3;display:grid;place-items:center;cursor:pointer}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot .lbl{position:absolute;left:8px;top:8px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.92);padding:4px 8px;border-radius:999px}
+.slot .empty{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--p-rose);font-size:11.5px;text-align:center;padding:12px;letter-spacing:.04em}
+.slot input{position:absolute;width:1px;height:1px;opacity:0}
+.result{position:relative;border-radius:18px;overflow:hidden;margin-top:14px}
+.result img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover}
+.result .tag{position:absolute;left:12px;top:12px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:rgba(255,255,255,.92);padding:5px 10px;border-radius:999px;display:flex;gap:6px;align-items:center}
+.result .tag i{width:6px;height:6px;border-radius:50%;background:var(--p-ok)}
+.fine{font-size:11.5px;color:var(--p-muted);line-height:1.45;margin:10px 0 0}
+
+.sl{margin-top:16px}
+.sl .l{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px}
+.sl .l b{font-weight:500;font-variant-numeric:tabular-nums}
+.sl input[type=range]{width:100%;accent-color:#1D191B}
+.big{display:flex;align-items:center;gap:18px;padding:18px;border-radius:20px;background:var(--p-greige);margin-top:18px}
+.big .sz{font-family:var(--display);font-size:64px;line-height:.9}
+.conv{display:flex;gap:12px;margin-top:6px;font-size:12px;color:var(--p-muted);font-variant-numeric:tabular-nums}
+.fit{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.fit .l{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px}
+.fit .l em{font-style:normal;color:var(--p-muted)}
+.bar{height:6px;border-radius:6px;background:var(--p-line);position:relative}
+.bar::before{content:"";position:absolute;left:35%;width:30%;top:0;bottom:0;background:var(--p-powder);border-radius:6px}
+.bar i{position:absolute;top:-3px;width:12px;height:12px;border-radius:50%;background:var(--p-ink);transform:translateX(-50%)}
+table.chart{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px;font-variant-numeric:tabular-nums}
+table.chart th,table.chart td{padding:8px 4px;border-bottom:1px solid var(--p-line);text-align:center}
+table.chart th{font-weight:400;color:var(--p-muted);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+table.chart tr.on td{font-weight:500;background:var(--p-powder)}
+
+.seal{display:flex;gap:12px;align-items:center;padding:14px;border-radius:16px;background:#EAF1EB;color:#2F4D3A;font-size:13px;line-height:1.35}
+.seal .c{width:40px;height:40px;border-radius:50%;background:var(--p-ok);display:grid;place-items:center;flex:none}
+.seal .c .ico{stroke:#fff}
+.seal b{display:block;font-weight:500}
+.pp{display:flex;gap:14px;align-items:center;margin:16px 0 4px}
+.pp img{width:96px;aspect-ratio:2/3;object-fit:cover;border-radius:6px;background:var(--p-photo);flex:none}
+.serial{font-family:var(--display);font-size:13px;color:var(--p-muted);font-variant-numeric:tabular-nums}
+.tl{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column}
+.tl li{position:relative;padding:0 0 16px 24px;font-size:12.5px;line-height:1.4}
+.tl li::before{content:"";position:absolute;left:4px;top:5px;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--p-rose);background:var(--p-bg)}
+.tl li::after{content:"";position:absolute;left:8.5px;top:17px;bottom:2px;width:1px;background:var(--p-line)}
+.tl li:last-child::after{display:none}
+.tl li.done::before{background:var(--p-rose)}
+.tl li small{display:block;color:var(--p-muted);font-size:11px}
+.tl li.next{font-weight:500}
+.tl li.next::before{box-shadow:0 0 0 4px var(--p-powder)}
+.resale{padding:16px;border-radius:16px;background:var(--p-greige);margin-top:14px}
+.resale p{margin:4px 0 12px;font-size:12.5px;line-height:1.4}
+
+.chat{display:flex;flex-direction:column;gap:10px;padding-top:4px}
+.who{display:flex;gap:10px;align-items:center}
+.who .av{width:38px;height:38px;font-size:15px}
+.who b{font-weight:500;display:block;font-size:14px}
+.who small{font-size:11.5px;color:var(--p-muted);display:flex;gap:5px;align-items:center}
+.who small i{width:6px;height:6px;border-radius:50%;background:var(--p-ok)}
+.m{max-width:84%;padding:11px 14px;border-radius:18px;font-size:13.5px;line-height:1.42}
+.m.in{background:var(--p-greige);border-bottom-left-radius:6px}
+.m.out{background:var(--p-ink);color:#fff;align-self:flex-end;border-bottom-right-radius:6px}
+.m small{display:block;font-size:10px;color:var(--p-muted);margin-top:4px}
+.m.out small{color:#B8AEB2}
+.look{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:84%}
+.look .pc .nm{font-size:11.5px}
+.mini-p{display:flex;gap:10px;align-items:center;padding:8px;border-radius:14px;border:1px solid var(--p-line);max-width:84%;cursor:pointer}
+.mini-p img{width:52px;aspect-ratio:2/3;object-fit:cover;border-radius:6px;background:var(--p-photo)}
+.mini-p div{font-size:12px;line-height:1.35}
+.mini-p small{color:var(--p-rose);display:block;font-size:11px}
+.aitag{align-self:center;font-size:10.5px;color:var(--p-muted);display:flex;gap:6px;align-items:center}
+.composer{display:flex;gap:8px;align-items:center;margin-top:8px}
+.composer .in{flex:1;height:44px;border-radius:999px;border:1px solid var(--p-line);display:flex;align-items:center;padding:0 16px;font-size:13px;color:var(--p-muted)}
+.composer .send{width:44px;height:44px;border-radius:50%;background:var(--p-ink);display:grid;place-items:center}
+.composer .send .ico{stroke:#fff}
+
+.ring{display:flex;gap:18px;align-items:center;padding:18px;border-radius:20px;background:var(--p-powder)}
+.ring svg{width:100px;height:100px;flex:none}
+.ring .num{font-family:var(--display);font-size:30px}
+.mood{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.vote{position:absolute;bottom:6px;left:6px;right:6px;font-size:10px;text-align:center;background:rgba(255,255,255,.92);border-radius:8px;padding:3px 0;font-variant-numeric:tabular-nums}
+.vote.win{background:var(--p-ink);color:#fff}
+
+.feed{display:flex;flex-direction:column;gap:22px;margin:0 -20px}
+.lk{position:relative;cursor:pointer}
+.lk img{display:block;width:100%;aspect-ratio:2/3;object-fit:cover;background:var(--p-photo)}
+.lk .cap{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:10px 20px 0}
+.lk .cap b{font-family:var(--display);font-weight:400;font-size:18px;display:block}
+.lk .cap small{font-size:11px;color:var(--p-muted);letter-spacing:.12em;text-transform:uppercase}
+.lk .shop{font-size:11px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--p-ink);padding-bottom:2px;white-space:nowrap}
+.lk .num{position:absolute;left:14px;top:12px;font-family:var(--display);font-style:italic;color:var(--p-ink);background:rgba(255,255,255,.88);padding:2px 10px;border-radius:999px;font-size:14px}
+
+.lvl{border-radius:20px;padding:20px;background:var(--p-ink);color:#F6EEF0;position:relative;overflow:hidden}
+.lvl .k{color:#C9BDC2}
+.lvl .tiers{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#B3A6AC;margin-top:16px}
+.lvl .tiers b{color:#fff;font-weight:500}
+.lvl .pg{height:4px;border-radius:4px;background:rgba(255,255,255,.18);margin-top:8px;position:relative}
+.lvl .pg i{position:absolute;left:0;top:0;bottom:0;width:62%;border-radius:4px;background:#E6C3BF}
+.lvl p{font-size:12px;color:#C9BDC2;margin:10px 0 0}
+.perks div{display:flex;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--p-line);font-size:13px}
+.perks .ico{stroke:var(--p-rose)}
+.perks small{margin-left:auto;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--p-muted)}
+.pass{position:absolute;right:6px;bottom:6px;display:flex;align-items:center;gap:4px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.94);padding:4px 7px;border-radius:999px}
+.pair{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;padding:12px;border-radius:16px;background:var(--p-greige);cursor:pointer}
+.pair img{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:6px;background:#fff}
+.pair .plus{font-family:var(--display);font-size:22px;color:var(--p-muted)}
+.pair p{grid-column:1/-1;margin:2px 0 0;font-size:12px;line-height:1.4}
+
+@media (max-width:900px){
+  .proto{grid-template-columns:1fr;justify-items:center}
+  .proto .phone-host{order:-1}
+  .idx{max-width:none;width:100%}
+}
+
+/* Phone visitors: the prototype is the whole page, full-screen like a real app */
+.app body{padding:0;background:#FFFFFF}
+.app .top,.app .idx,.app .note,.app #v-sheet{display:none!important}
+.app .wrap{max-width:none}
+.app .proto{display:block}
+.app .phone-host{width:100%!important;height:auto!important;overflow:visible}
+.app .phone{width:100%;height:100vh;height:100dvh;border-radius:0;padding:0;box-shadow:none;background:#FFFFFF;transform:none!important}
+.app .scr{border-radius:0}
+.app .status{display:none}
+.app .tabbar{padding-bottom:calc(14px + env(safe-area-inset-bottom, 0px))}
+.app .hero .logo{top:calc(18px + env(safe-area-inset-top, 0px))}
+.app .hdr{padding-top:calc(6px + env(safe-area-inset-top, 0px))}
+
+.install{position:fixed;left:12px;right:12px;bottom:calc(84px + env(safe-area-inset-bottom, 0px));z-index:50;background:#1D191B;color:#fff;border-radius:18px;padding:14px 14px 14px 16px;display:flex;gap:12px;align-items:flex-start;box-shadow:0 12px 30px -10px rgba(0,0,0,.45);font-family:var(--body)}
+.install img{width:44px;height:44px;border-radius:11px;flex:none}
+.install b{display:block;font-weight:500;font-size:14px;margin-bottom:2px}
+.install p{margin:0;font-size:12.5px;line-height:1.4;color:#D9CFD3}
+.install .x{all:unset;cursor:pointer;font-size:20px;line-height:1;color:#B8AEB2;padding:2px 4px}
+.install .go{all:unset;cursor:pointer;margin-top:8px;display:inline-block;background:#fff;color:#1D191B;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;border-radius:999px}
+@media (prefers-reduced-motion:reduce){.toast{animation:none}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Malva Florea · концепт застосунку · SS26 і SS27</div>
+      <h1>Malva <em class="it">Atelier</em></h1>
+      <p class="lead">Ательє в кишені на реальних даних бренду: 71 виріб з лайншитів SS26 і SS27, фото з лукбуків і каталожна зйомка, справжня розмірна сітка.</p>
+    </div>
+    <div class="seg" role="group" aria-label="Режим перегляду">
+      <button id="m-proto" aria-pressed="true">Прототип</button>
+      <button id="m-sheet" aria-pressed="false">Усі екрани</button>
+    </div>
+  </header>
+
+  <section id="v-proto" class="proto">
+    <div>
+      <nav class="idx" id="idx" aria-label="Екрани"></nav>
+      <p class="note"><b>Що справжнє:</b> фото, артикули, описи, склад тканин, роздрібні ціни в євро і розмірна сітка взяті з ваших лайншитів. Калькулятор розміру рахує за вашою сіткою. <b>Що умовне:</b> короткі назви виробів (у лайншиті їх немає), імена клієнтки й стилістки, номер виробу в паспорті, дати і рівні лояльності. Результат AI-примірки показаний на фото з лукбука.</p>
+    </div>
+    <div class="phone-host"><div class="phone" id="phone"></div></div>
+  </section>
+
+  <section id="v-sheet" class="sheet" hidden></section>
+</div>
+
+<script id="data" type="application/json">{"products": [{"sku": "MF-SS-2027-DR-001-WHT", "season": "SS27", "name": "Petal Hem Pleated Mini Dress", "color": "White", "cat": "dress", "desc": "White A-line mini dress in pleated fabric, finished with a voluminous hem of 3D laser-cut organza petals. The sculptural detail creates a distinctive statement effect. Designed for special occasions, wedings, partywear and editorial styling.", "fabric": "78% Acetate 22% Viscose 100% Polyester", "care": "Dry cleaning", "price": 750, "pos": "Statement /  Bridal & Editorial Drive", "look": 12, "bridal": true, "hero": false, "imgs": ["MF-SS-2027-DR-001-WHT-L0.jpg", "MF-SS-2027-DR-001-WHT-L1.jpg", "MF-SS-2027-DR-001-WHT-L2.jpg"]}, {"sku": "MF-SS-2027-DR-003-PWD", "season": "SS27", "name": "Petal Hem Pleated Mini Dress", "color": "Powder", "cat": "dress", "desc": "Powder A-line mini dress in pleated fabric, finished with a voluminous hem of 3D laser-cut organza petals. The sculptural detail creates a distinctive statement effect. Designed for special occasions, partywear, and editorial styling.", "fabric": "78% Acetate 22% Viscose 100% Polyester", "care": "Dry cleaning", "price": 750, "pos": "Statement / Editorial Piece", "look": 8, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-DR-003-PWD-L0.jpg", "MF-SS-2027-DR-003-PWD-L1.jpg", "MF-SS-2027-DR-003-PWD-L2.jpg"]}, {"sku": "MF-SS-2027-DR-004-PWD", "season": "SS27", "name": "Fluid Maxi Slip Dress", "color": "Powder", "cat": "dress", "desc": "Powder-pink maxi slip dress in fluid acetate-viscose. A minimalist silhouette with clean lines, worn alone or under the matching cape for a more elevated evening look.", "fabric": "78% Acetate 22% Viscose", "care": "Dry cleaning", "price": 450, "pos": "Volume Driver / Multi-Use / Hero Product Everyday & Cocktail", "look": 20, "bridal": false, "hero": true, "imgs": ["MF-SS-2027-DR-004-PWD-L0.jpg", "MF-SS-2027-DR-004-PWD-L1.jpg", "MF-SS-2027-DR-004-PWD-L2.jpg"]}, {"sku": "MF-SS-2027-CP-005-PWD", "season": "SS27", "name": "Pleated Petal Cape", "color": "Powder", "cat": "cape", "desc": "Powder-pink elongated cape with an accordion-pleated texture and hand-applied floral petals. A statement layering piece over dresses and separates, adding texture and dimension to evening looks.", "fabric": "100% Polyester", "care": "Dry cleaning", "price": 720, "pos": "Editorial / Layering Statement/ Hero Product", "look": 9, "bridal": false, "hero": true, "imgs": ["MF-SS-2027-CP-005-PWD-L0.jpg", "MF-SS-2027-CP-005-PWD-L1.jpg", "MF-SS-2027-CP-005-PWD-L2.jpg"]}, {"sku": "MF-SS-2027-DR-006-BLK", "season": "SS27", "name": "Lace Inset Mini Dress", "color": "Black", "cat": "dress", "desc": "Black mini dress in acetate-viscose with intricate lace inserts. Smooth fabric meets delicate lace for a refined, feminine finish with a statement edge.", "fabric": "78% Acetate 22% Viscose", "care": "Dry cleaning", "price": 520, "pos": "Volume driver/ Commercial Essential\nUniversally wearable cut", "look": 29, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-DR-006-BLK-L0.jpg", "MF-SS-2027-DR-006-BLK-L1.jpg", "MF-SS-2027-DR-006-BLK-L2.jpg"]}, {"sku": "MF-SS-2027-DR-007-BLK", "season": "SS27", "name": "A-Line Mini Dress", "color": "Black", "cat": "dress", "desc": "Black A-line mini dress in acetate-viscose. A clean, elegant silhouette with understated sophistication, an easy evening base.", "fabric": "78% Acetate 22% Viscose", "care": "Dry cleaning", "price": 380, "pos": "Volume Driver / Entry Point/ Commercial Essential\nUniversally wearable cu", "look": 21, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-DR-007-BLK-L0.jpg"]}, {"sku": "MF-SS-2027-DR-008-BLK", "season": "SS27", "name": "Petal Back Gown", "color": "Black", "cat": "dress", "desc": "Elegant floor-length black dress in a fitted silhouette, featuring long sleeves and a deep back opening. The design is defined by contrasting white 3D laser-cut petals framing the back opening and cascading down the back. A statement piece for red carpet events, eveningwear, and editorial styling.", "fabric": "78% Acetate 22% Viscose Lining: 60% Viscosa, 34% Acetate, 6% Elastan", "care": "Dry cleaning", "price": 1250, "pos": "Statement /Editorial piece\nStrong PR and campaign potential. Red carpet dress", "look": 26, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-DR-008-BLK-L0.jpg", "MF-SS-2027-DR-008-BLK-L1.jpg", "MF-SS-2027-DR-008-BLK-L2.jpg"]}, {"sku": "MF-SS-2027-CP-010-GRG", "season": "SS27", "name": "Ruffle Cape & Slip Set", "color": "Greige", "cat": "cape", "desc": "Two-piece set: a minimalist greige slip dress in acetate-viscose paired with a cape featuring cascading hand-applied floral ruffles. Wear the slip alone as a versatile base, or add the cape for statement eveningwear.", "fabric": "100% Viscose", "care": "Dry cleaning", "price": 620, "pos": "Statement HERO PRODUCT / Multi-Use Piece\n“Two-in-one” versatility: slip as everyday/cocktail essential, cape as couture-level statement.", "look": 11, "bridal": false, "hero": true, "imgs": ["MF-SS-2027-CP-010-GRG-L0.jpg", "MF-SS-2027-CP-010-GRG-L1.jpg", "MF-SS-2027-CP-010-GRG-L2.jpg"]}, {"sku": "MF-SS-2027-DR-014-IVY", "season": "SS27", "name": "Lace Oval Cutout Gown", "color": "Ivory", "cat": "dress", "desc": "Floor-length ivory dress  in acetate-viscose with delicate straps, fully lined and covered in textured lace. The design features a V-neckline, an elegant oval cutout beneath the bust, and an open back. A refined option for eveningwear, bridal, and occasion styling.", "fabric": "78% Acetate 22% Viscose 100% Polyester Lining: 80%NY 20% SP", "care": "Dry cleaning", "price": 620, "pos": "Statement /  Bridal & occasion styling", "look": 6, "bridal": true, "hero": false, "imgs": ["MF-SS-2027-DR-014-IVY-L0.jpg", "MF-SS-2027-DR-014-IVY-L1.jpg", "MF-SS-2027-DR-014-IVY-L2.jpg"]}, {"sku": "MF-SS-2027-DR-015-IVY", "season": "SS27", "name": "Lace Keyhole Mini Slip", "color": "Ivory", "cat": "dress", "desc": "Ivory mini slip dress in acetate-viscose lace, featuring a delicate front keyhole cutout. Its lightweight, feminine design makes it suitable for both daytime occasions and evening styling.", "fabric": "78% Acetate 22% Viscose 100% Polyester Lining: 80% Nylon, 20% Spandex", "care": "Dry cleaning", "price": 520, "pos": "Statement /    Bridal and for occasion styling", "look": 14, "bridal": true, "hero": false, "imgs": ["MF-SS-2027-DR-015-IVY-L0.jpg", "MF-SS-2027-DR-015-IVY-L1.jpg", "MF-SS-2027-DR-015-IVY-L2.jpg"]}, {"sku": "MF-SS-2027-DR-023-IVY", "season": "SS27", "name": "Lace Cutwork Midi Slip", "color": "Ivory", "cat": "dress", "desc": "Ivory midi slip dress in linen-viscose with floral lace cutwork throughout. A fitted, body-skimming silhouette refined for daytime, striking for evening.", "fabric": "48% Linen, 52% Viscose. 100% Polyester Lining: 70% Cotton, 30% Silk.", "care": "Dry cleaning", "price": 720, "pos": "Volume driver/ Timeless slip shape with high sell-through potential", "look": 19, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-DR-023-IVY-L0.jpg", "MF-SS-2027-DR-023-IVY-L1.jpg", "MF-SS-2027-DR-023-IVY-L2.jpg"]}, {"sku": "MF-SS-2027-DR-024-BLK", "season": "SS27", "name": "Cowl Neck Lace Midi Dress", "color": "Black", "cat": "dress", "desc": "Black fitted midi dress featuring a draped cowl neckline. Featuring intricate hand-applied detailing. The design is defined by contrasting lace inserts at the waist and hips, finished with a delicate lace trim along the hem. A refined piece for evening and cocktail wear.", "fabric": "78% Acetate, 22% Viscose. 100% Polyester", "care": "Dry cleaning", "price": 820, "pos": "Statement piece perfect for eveningwear and cocktail occasions", "look": 28, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-DR-024-BLK-L0.jpg", "MF-SS-2027-DR-024-BLK-L1.jpg", "MF-SS-2027-DR-024-BLK-L2.jpg"]}, {"sku": "MF-SS-2027-DR-030-BGE", "season": "SS27", "name": "Sequin Halter Midi Dress", "color": "Beige", "cat": "dress", "desc": "Midi dress in a soft beige-pink hue, crafted from shimmering sequin fabric and fully lined. The fitted silhouette features a halter neckline and an open back with a striking T-shaped strap detail. A statement piece for  eveningwear, and cocktail occasions.", "fabric": "95% Polyester, 5% Spandex. Lining: 80% Polyamide, 20% Elastane.", "care": "Dry cleaning", "price": 650, "pos": "Statement & commercial occasion piece", "look": 27, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-DR-030-BGE-L0.jpg", "MF-SS-2027-DR-030-BGE-L1.jpg", "MF-SS-2027-DR-030-BGE-L2.jpg"]}, {"sku": "MF-SS-2027-CP-009-WHT", "season": "SS27", "name": "Ruffled Tunic Cape", "color": "White", "cat": "cape", "desc": "Ivory tunic cape crafted from lightweight fabric , with a sheer, flowing silhouette and delicate ruffled edges cascading along the sides.  A sculptural, transformative piece, dress it up for evening or wear open over separates.", "fabric": "100% Viscose", "care": "Dry cleaning", "price": 520, "pos": "Statement /  Bridal & Editorial Drive", "look": 10, "bridal": true, "hero": false, "imgs": ["MF-SS-2027-CP-009-WHT-L0.jpg", "MF-SS-2027-CP-009-WHT-L1.jpg"]}, {"sku": "MF-SS-2027-CP-002-IVY", "season": "SS27", "name": "Textured Lace Cape", "color": "Ivory", "cat": "cape", "desc": "Elegant lace cape in white, crafted from textured lace (100% polyester). Features a loose, draped silhouette with a front fastening, adding airy volume and tactile richness. A statement layering piece perfect for eveningwear, festive events, and occasionwear styling", "fabric": "100% Polyester", "care": "Dry cleaning", "price": 620, "pos": "Statement /  Bridal & layering piece", "look": 7, "bridal": true, "hero": false, "imgs": ["MF-SS-2027-CP-002-IVY-L0.jpg", "MF-SS-2027-CP-002-IVY-L1.jpg", "MF-SS-2027-CP-002-IVY-L2.jpg"]}, {"sku": "MF-SS-2027-BLZ-012-GRG", "season": "SS27", "name": "Floral Trail Blouse", "color": "Greige", "cat": "top", "desc": "Sheer blouse in a refined greige-beige shade with a light, fluid silhouette. The design is defined by a 3D floral appliqué at the high neckline and an asymmetric ruffled hem that extends into a dramatic trail. Ideal for eveningwear, cocktail occasions, and editorial styling.", "fabric": "100% Viscose", "care": "Dry cleaning", "price": 590, "pos": "Statement / Editorial  sophisticated piece", "look": 13, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-BLZ-012-GRG-L0.jpg", "MF-SS-2027-BLZ-012-GRG-L1.jpg", "MF-SS-2027-BLZ-012-GRG-L2.jpg"]}, {"sku": "MF-SS-2027-TOP-028-IVY", "season": "SS27", "name": "Scalloped Lace Bralette", "color": "Ivory", "cat": "top", "desc": "Ivory lace bralette top with scalloped trim. A delicate foundation piece can be worn alone for evening or layered under sheer capes and blazers.", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 180, "pos": "Entry Point / Layering Essential", "look": 18, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-TOP-028-IVY-L0.jpg", "MF-SS-2027-TOP-028-IVY-L1.jpg"]}, {"sku": "MF-SS-2027-BLZ-031-BGE", "season": "SS27", "name": "Sequin Halter Top", "color": "Beige", "cat": "top", "desc": "Beige sequin top featuring a halter neckline and open back. Fully lined for comfort, it combines the statement shine of sequins with a clean silhouette.", "fabric": "95% Polyester, 5% Spandex. Lining: 80% Polyamide, 20% Elastane.", "care": "Dry cleaning", "price": 320, "pos": "Statement/ Multi-Use Piece", "look": 24, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-BLZ-031-BGE-L0.jpg", "MF-SS-2027-BLZ-031-BGE-L1.jpg", "MF-SS-2027-BLZ-031-BGE-L2.jpg"]}, {"sku": "MF-SS-2027-BLZ-032-BLK", "season": "SS27", "name": "Floral Ribbon Blouse", "color": "Black", "cat": "top", "desc": "Black blouse in lightweight acetate-viscose fabric, featuring a high stand collar and deep back opening. Finished with a statement floral appliqué and long ruffled ribbon detail. Designed for evening and cocktail looks.", "fabric": "78% Acetate, 22% Viscose.", "care": "Dry cleaning", "price": 490, "pos": "Statement / Editorial Piece Elegent and perfect for eveningwear and cocktail occasions", "look": 25, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-BLZ-032-BLK-L0.jpg", "MF-SS-2027-BLZ-032-BLK-L1.jpg", "MF-SS-2027-BLZ-032-BLK-L2.jpg"]}, {"sku": "MF-SS-2027-BLZ-033-BLK", "season": "SS27", "name": "Lace Panel Keyhole Tee", "color": "Black", "cat": "top", "desc": "Black relaxed-fit T-shirt in acetate-viscose fabric, featuring a round neckline and a back keyhole with button closure. A sheer lace panel adds a subtle feminine touch to the clean silhouette. A versatile piece for smart casual looks.", "fabric": "78% Acetate, 22% Viscose.", "care": "Dry cleaning", "price": 320, "pos": "Volume driver / Commercial Essential\nEasy styling: works with skirts, trousers, shorts", "look": 22, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-BLZ-033-BLK-L0.jpg", "MF-SS-2027-BLZ-033-BLK-L1.jpg", "MF-SS-2027-BLZ-033-BLK-L2.jpg"]}, {"sku": "MF-SS-2027-CT-016-BGE", "season": "SS27", "name": "Lace Overlay Long Jacket", "color": "Beige", "cat": "outer", "desc": "Extended jacket with a high stand collar, combining a beige cotton base with white lace overlay. The straight silhouette features an asymmetric button fastening, contrast piping, and pockets. Finished with a natural viscose lining for added comfort. A statement piece for polished city", "fabric": "100% Cotton 100% Polyester Lining: 100% Viscose", "care": "Dry cleaning", "price": 990, "pos": "Statement Outwear piece/  perfect for elevated casual", "look": 16, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-CT-016-BGE-L0.jpg", "MF-SS-2027-CT-016-BGE-L1.jpg", "MF-SS-2027-CT-016-BGE-L2.jpg"]}, {"sku": "MF-SS-2027-JKT-017-IVY", "season": "SS27", "name": "Lace Tailored Blazer", "color": "Ivory", "cat": "outer", "desc": "Fitted ivory blazer in cotton-blend openwork lace, featuring classic lapels and oversized patch pockets. It combines refined tailoring with the lightness and transparency of lace. Pair it with matching lace shorts for an elegant set or layer it over dresses. A versatile piece for occasion, wedding and evening styling", "fabric": "60% Cotton, 32% Polyester, 8% Polyamide. 100% Polyester Lining: 100% Polyester", "care": "Dry cleaning", "price": 750, "pos": "Statement /  Bridal & for evening styling", "look": 1, "bridal": true, "hero": false, "imgs": ["MF-SS-2027-JKT-017-IVY-L0.jpg", "MF-SS-2027-JKT-017-IVY-L1.jpg", "MF-SS-2027-JKT-017-IVY-L2.jpg"]}, {"sku": "MF-SS-2027-CT-020-CRM", "season": "SS27", "name": "Lace Capelet Trench", "color": "Cream", "cat": "outer", "desc": "Cotton trench coat in a soft milk-cream palette, finished with a matching lining. The relaxed silhouette features a waist belt and an oversized notched collar, complemented by a statement lace capelet across the shoulders and back. An elegant statement piece for city dressing", "fabric": "60% Cotton, 32% Polyester, 8% Polyamide. Lining: 50% Viscose, 50% Acetate", "care": "Dry cleaning", "price": 1150, "pos": "Statement Outwear piece/ Elegant Casual piece / Day-to-Evening", "look": 15, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-CT-020-CRM-L0.jpg", "MF-SS-2027-CT-020-CRM-L1.jpg", "MF-SS-2027-CT-020-CRM-L2.jpg"]}, {"sku": "MF-SS-2027-CT-021-CRM", "season": "SS27", "name": "Stand Collar Long Jacket", "color": "Cream", "cat": "outer", "desc": "Long milk-white jacket in a soft cotton blend, finished with a lining. The straight silhouette features a high stand collar with button fastening, an asymmetric closure, and patch pockets. A versatile and elegant outerwear piece for everyday and smart casual looks.", "fabric": "60% Cotton, 32% Polyester, 8% Polyamide. Lining: 50% Viscose, 50% Acetate", "care": "Dry cleaning", "price": 750, "pos": "Volume Driver / Outwear piece/ Commercial Essential\nUniversally wearable cu", "look": 17, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-CT-021-CRM-L0.jpg", "MF-SS-2027-CT-021-CRM-L1.jpg", "MF-SS-2027-CT-021-CRM-L2.jpg"]}, {"sku": "MF-SS-2027-BLZ-025-CRM", "season": "SS27", "name": "Peplum Bateau Shirt", "color": "Cream", "cat": "top", "desc": "Refined milk-white shirt in a cotton blend, featuring a bateau neckline and a fitted waist with a peplum. Finished with decorative buttons, voluminous sleeves, and wide cuffs. An elegant piece for smart casual, business, and evening looks.", "fabric": "60% Cotton, 32% Polyester, 8% Polyamide.", "care": "Dry cleaning", "price": 590, "pos": "Statement/ Commercial piece perfect for elevated casual, work and eveningwear styling", "look": 3, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-BLZ-025-CRM-L0.jpg", "MF-SS-2027-BLZ-025-CRM-L1.jpg", "MF-SS-2027-BLZ-025-CRM-L2.jpg"]}, {"sku": "MF-SS-2027-BLZR-026-IVY", "season": "SS27", "name": "Cropped Linen Blazer", "color": "Ivory", "cat": "outer", "desc": "Cropped milk-white blazer in a linen-viscose blend, finished with a lining. The tailored silhouette features defined lapels, a deep neckline, and a neat fitted cut. Lightweight yet structured, it is a refined piece for summer sets, cocktail occasions, and elevated daywear.", "fabric": "48% Linеn, 52% Viscose, Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": 650, "pos": "Volume Driver / Commercial Essential\nUniversally wearable cu", "look": 2, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-BLZR-026-IVY-L0.jpg", "MF-SS-2027-BLZR-026-IVY-L1.jpg", "MF-SS-2027-BLZR-026-IVY-L2.jpg"]}, {"sku": "MF-SS-2027-SHRT-013-CRM", "season": "SS27", "name": "Pleated Tailored Shorts", "color": "Cream", "cat": "bottom", "desc": "Cropped milk-white shorts in a cotton blend, fully lined. Featuring a high waist, front pleats, side pockets, and a curved hem. A versatile piece for tailored sets and summer looks.", "fabric": "60% Cotton, 32% Polyester, 8% Polyamide. Lining: 50% Viscose, 50% Acetate.", "care": "Dry cleaning", "price": 250, "pos": "Volume Driver / Entry Point Essential\nUniversally wearable", "look": 13, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-SHRT-013-CRM-L0.jpg"]}, {"sku": "MF-SS-2027-SHRT-018-IVY", "season": "SS27", "name": "Scalloped Lace Shorts", "color": "Ivory", "cat": "bottom", "desc": "Milk-white high-waisted shorts combining a cotton base with textured lace and delicate scalloped trim at the hem. The front pleats and flared silhouette create an elegant line through the hips. A refined option for tailored sets, summer, cocktail, and special-occasion looks.", "fabric": "60% CO 32 % PL 8% PA 100%PL Lining: 50% viscose, 50% acetate", "care": "Dry cleaning", "price": 320, "pos": "Volume Driver / Entry Point Essential\nUniversally wearable", "look": 23, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-SHRT-018-IVY-L0.jpg", "MF-SS-2027-SHRT-018-IVY-L1.jpg", "MF-SS-2027-SHRT-018-IVY-L2.jpg"]}, {"sku": "MF-SS-2027-PNT-022-CRM", "season": "SS27", "name": "Straight Tailored Trousers", "color": "Cream", "cat": "bottom", "desc": "Straight-leg milk-white trousers in a cotton blend, lined. High-waisted with a clean, minimal silhouette. A versatile wardrobe staple for modern tailoring, smart casual, and eveningwear styling", "fabric": "60% Cotton, 32% Polyester, 8% Polyamide. Lining: 50% Viscose, 50% Acetate.", "care": "Dry cleaning", "price": 470, "pos": "Volume Driver / Commercial Essential\nUniversally wearable", "look": 18, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-PNT-022-CRM-L0.jpg", "MF-SS-2027-PNT-022-CRM-L1.jpg", "MF-SS-2027-PNT-022-CRM-L2.jpg"]}, {"sku": "MF-SS-2027-SKT-027-IVY", "season": "SS27", "name": "Lace Waist Mini Skirt", "color": "Ivory", "cat": "bottom", "desc": "Milk-white mini skirt in a linen blend, fully lined. The fitted silhouette is accented by a lace waistband. A refined piece for summer sets, cocktail occasions, and smart casual looks.", "fabric": "48% Linеn, 52% Viscose, Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": 390, "pos": "Volume Driver /  Essential\nUniversally wearable", "look": 2, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-SKT-027-IVY-L0.jpg", "MF-SS-2027-SKT-027-IVY-L1.jpg", "MF-SS-2027-SKT-027-IVY-L2.jpg"]}, {"sku": "MF-SS-2027-PNT-029-IVY", "season": "SS27", "name": "Lace Waist Wide-Leg Trousers", "color": "Ivory", "cat": "bottom", "desc": "Milk-white wide-leg trousers in a linen blend, fully lined. Featuring a high waist, relaxed fluid silhouette, and an accent lace waistband. An elegant piece for summer tailored sets, cocktail occasions, and smart casual looks.", "fabric": "48% Linеn, 52% Viscose, Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": 490, "pos": "Volume Driver / Commercial Essential\nUniversally wearable", "look": 4, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-PNT-029-IVY-L0.jpg", "MF-SS-2027-PNT-029-IVY-L1.jpg", "MF-SS-2027-PNT-029-IVY-L2.jpg"]}, {"sku": "MF-SS-2027-PNT-034-BLK", "season": "SS27", "name": "Draped Sheer Trousers", "color": "Black", "cat": "bottom", "desc": "Black wide-leg trousers in a lightweight sheer fabric, featuring refined asymmetric draping at the hips. The fluid silhouette creates an elegant sense of movement. A statement piece for evening and cocktail looks.", "fabric": "100% Viscose", "care": "Dry cleaning", "price": 650, "pos": "Statement / Editorial Piece  Creates fluid, eye-catching movement", "look": 25, "bridal": false, "hero": false, "imgs": ["MF-SS-2027-PNT-034-BLK-L0.jpg"]}, {"sku": "MF-SS-2026-DR-002-GRY", "season": "SS26", "name": "Laser Petal Ruched Mini", "color": "Gray", "cat": "dress", "desc": "Fitted mini dress in ruched mesh with 3D laser-cut floral appliqués. A statement piece for partywear and editorial impact", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 690, "pos": "Statement / PR driver\nCreates an editorial/wow effect, perfect for window displays & press", "look": 19, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-DR-002-GRY-P0.jpg", "MF-SS-2026-DR-002-GRY-P1.jpg", "SS26-LOOK-11.jpg"]}, {"sku": "MF-SS-2026-DR-003-BLK", "season": "SS26", "name": "Laser Petal Ruched Mini", "color": "Black", "cat": "dress", "desc": "Fitted mini dress in ruched mesh with 3D laser-cut floral appliqués. A statement piece for partywear and editorial impact", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 690, "pos": "Statement / PR driver\nCreates an editorial/wow effect, perfect for window displays & press", "look": 17, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-DR-003-BLK-P0.jpg", "MF-SS-2026-DR-003-BLK-P1.jpg", "SS26-LOOK-12.jpg"]}, {"sku": "MF-SS-2026-DR-008-IVY", "season": "SS26", "name": "Petal Linen Midi Slip", "color": "Ivory", "cat": "dress", "desc": "Midi slip dress in linen-viscose blend with delicate hand-applied floral petals. Lightweight, versatile silhouette for day-to-night wear", "fabric": "48% Linеn, 52% Viscose Lining: 100% Viscose", "care": "Dry cleaning", "price": 590, "pos": "Volume Driver / Entry Point\nClean, wearable silhouette that can be styled for work, dinner, or events", "look": 2, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-DR-008-IVY-P0.jpg", "MF-SS-2026-DR-008-IVY-P1.jpg", "SS26-LOOK-13.jpg"]}, {"sku": "MF-SS-2026-DR-009-GRY", "season": "SS26", "name": "Petal Midi Slip", "color": "Gray", "cat": "dress", "desc": "Midi slip dress in viscose blend with delicate hand-applied floral petals. Lightweight, versatile silhouette for day-to-night wear", "fabric": "53% Viscose, 27% Nylon, 14% Lyocell, 6% Linen Lining: 60% Viscose, 40% Acetate", "care": "Dry cleaning", "price": 520, "pos": "Volume Driver / Entry Point\nClean, wearable silhouette that can be styled for work, dinner, or events", "look": 9, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-DR-009-GRY-P0.jpg", "MF-SS-2026-DR-009-GRY-P1.jpg", "SS26-LOOK-14.jpg"]}, {"sku": "MF-SS-2026-DR-030-BGE", "season": "SS26", "name": "Sequin Cowl Slip Dress", "color": "Beige", "cat": "dress", "desc": "Midi slip sequin dress with draped neckline and soft viscose-acetate lining. Sleek silhouette, versatile for evening or occasion wear", "fabric": "100% Polyester Lining: 60% Viscose, 40% Acetate", "care": "Dry cleaning", "price": 650, "pos": "Volume Driver / Commercial Hero\nTimeless slip shape with high sell-through potential", "look": 3, "bridal": false, "hero": true, "imgs": ["MF-SS-2026-DR-030-BGE-P0.jpg", "MF-SS-2026-DR-030-BGE-P1.jpg", "SS26-LOOK-15.jpg"]}, {"sku": "MF-SS-2026-CP-032-BLK", "season": "SS26", "name": "Floral Silk Cape & Slip", "color": "Black", "cat": "cape", "desc": "Two-piece look: a minimalist slip dress in acetate-viscose blend with viscose-acetate lining, paired with a silk cape adorned with hand-applied floral appliqués. Can be worn together for event dressing or separately as a versatile wardrobe staple", "fabric": "100% Silk", "care": "Dry cleaning", "price": 1200, "pos": "Volume Driver / Multi-Use Piece\nHighly versatile: cape transforms the slip from daywear into an evening statement", "look": 16, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-CP-032-BLK-P0.jpg", "MF-SS-2026-CP-032-BLK-P1.jpg", "SS26-LOOK-08.jpg"]}, {"sku": "MF-SS-2026-DR-033-BLK", "season": "SS26", "name": "Minimal Slip Dress", "color": "Black", "cat": "dress", "desc": "Minimalist slip dress in acetate-viscose, the base of the Floral Silk Cape set. Worn alone or under the cape.", "fabric": "78% Acetate, 22% Viscose Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": null, "pos": "", "look": 16, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-DR-033-BLK-P0.jpg", "MF-SS-2026-DR-033-BLK-P1.jpg"]}, {"sku": "MF-SS-2026-CP-034-BLK", "season": "SS26", "name": "Ruffle Silk Cape & Slip", "color": "Black", "cat": "cape", "desc": "Two-piece set: a minimalist slip dress in acetate-viscose blend with viscose-acetate lining, paired with a silk cape featuring cascading hand-applied floral ruffles. Wear the slip alone as a versatile base dress, or elevate with the cape for statement eveningwear", "fabric": "100% Silk", "care": "Dry cleaning", "price": 1300, "pos": "Volume Driver / Multi-Use Piece\n“Two-in-one” versatility: slip as everyday/cocktail essential, cape as couture-level statement.", "look": 4, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-CP-034-BLK-P0.jpg", "MF-SS-2026-CP-034-BLK-P1.jpg", "SS26-LOOK-09.jpg"]}, {"sku": "MF-SS-2026-DR-035-BLK", "season": "SS26", "name": "Minimal Maxi Slip", "color": "Black", "cat": "dress", "desc": "Minimalist maxi slip in acetate-viscose, the base of the Ruffle Silk Cape set.", "fabric": "78% Acetate, 22% Viscose Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": null, "pos": "", "look": 4, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-DR-035-BLK-P0.jpg", "MF-SS-2026-DR-035-BLK-P1.jpg"]}, {"sku": "MF-SS-2026-CP-036-IVY", "season": "SS26", "name": "Bridal Ruffle Cape & Slip", "color": "Ivory", "cat": "cape", "desc": "Two-piece set: a minimalist slip dress in acetate-viscose blend with viscose lining, styled with a silk cape featuring cascading floral ruffles and petal appliqués. The slip works as a versatile base dress, while the cape transforms it into a statement piece for weddings or evening events", "fabric": "100% Silk", "care": "Dry cleaning", "price": 1750, "pos": "Statement / Bridal & Occasionwear Hero\nIdeal for bridal capsules, layering edits, and special occasion dressing", "look": 5, "bridal": true, "hero": true, "imgs": ["MF-SS-2026-CP-036-IVY-P0.jpg", "MF-SS-2026-CP-036-IVY-P1.jpg", "SS26-LOOK-10.jpg"]}, {"sku": "MF-SS-2026-DR-037-IVY", "season": "SS26", "name": "Ivory Maxi Slip", "color": "Ivory", "cat": "dress", "desc": "Ivory maxi slip in acetate-viscose with viscose lining, the base of the Bridal Ruffle Cape set.", "fabric": "78% Acetate, 19% Vsicose, 3% Elastane Lining: 100% Viscose", "care": "Dry cleaning", "price": null, "pos": "", "look": 5, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-DR-037-IVY-P0.jpg", "MF-SS-2026-DR-037-IVY-P1.jpg"]}, {"sku": "MF-SS-2026-CP-001-GRY", "season": "SS26", "name": "Petal Cape & Bustier", "color": "Gray", "cat": "cape", "desc": "Two-piece set: structured bustier top in polyamide-elastane blend, styled with a sheer cape featuring cascading hand-applied floral petals. Can be worn together as an editorial look or layered over dresses and separates for evening styling", "fabric": "100% Polyester", "care": "Dry cleaning", "price": 520, "pos": "Editorial / Layering Statement\nStrong PR and campaign potential", "look": 21, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-CP-001-GRY-P0.jpg", "MF-SS-2026-CP-001-GRY-P1.jpg", "SS26-LOOK-05.jpg"]}, {"sku": "MF-SS-2026-TOP-014-GRY", "season": "SS26", "name": "Structured Bustier", "color": "Gray", "cat": "top", "desc": "Structured bustier top in polyamide-elastane, worn under the Petal Cape or on its own.", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 150, "pos": "", "look": 21, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-TOP-014-GRY-P0.jpg", "MF-SS-2026-TOP-014-GRY-P1.jpg", "SS26-LOOK-05.jpg"]}, {"sku": "MF-SS-2026-TOP-015-IVY", "season": "SS26", "name": "Soft Triangle Bra", "color": "Ivory", "cat": "top", "desc": "Soft triangle bra with minimal coverage, perfect for layering under sheer pieces to provide subtle support and structure", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 150, "pos": "Entry Point / Layering Essential", "look": 21, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-TOP-015-IVY-P0.jpg", "MF-SS-2026-TOP-015-IVY-P1.jpg"]}, {"sku": "MF-SS-2026-BLZ-016-IVY", "season": "SS26", "name": "Crochet Flower Linen Blouse", "color": "Ivory", "cat": "top", "desc": "Relaxed-fit blouse in linen-viscose blend with hand-crocheted floral appliqués. Versatile silhouette that pairs easily with skirts, trousers, or layering pieces", "fabric": "48% Linеn, 52% Viscose", "care": "Dry cleaning", "price": 520, "pos": "Volume Driver / Commercial Hero\nEasy styling across categories (workwear, casual, evening layering)", "look": 12, "bridal": false, "hero": true, "imgs": ["MF-SS-2026-BLZ-016-IVY-P0.jpg", "MF-SS-2026-BLZ-016-IVY-P1.jpg", "SS26-LOOK-00.jpg"]}, {"sku": "MF-SS-2026-BLZ-018-GRY", "season": "SS26", "name": "Collar Closure Blouse", "color": "Gray", "cat": "top", "desc": "Relaxed-fit blouse in viscose blend with a modern collar closure and concealed placket. A versatile essential that styles seamlessly with skirts, trousers, or layered looks", "fabric": "53% Viscose, 27% Nylon, 14% Lyocell, 6% Linen", "care": "Dry cleaning", "price": 420, "pos": "Volume Driver / Commercial Hero\nElevated basic: minimalist cut with unique collar fastening", "look": 13, "bridal": false, "hero": true, "imgs": ["MF-SS-2026-BLZ-018-GRY-P0.jpg", "MF-SS-2026-BLZ-018-GRY-P1.jpg", "SS26-LOOK-01.jpg"]}, {"sku": "MF-SS-2026-TOP-020-GRY", "season": "SS26", "name": "Circle Petal Crop Top", "color": "Gray", "cat": "top", "desc": "Cropped top in viscose blend with hand-applied circular floral appliqués. Sculptural detailing creates a statement silhouette, perfect for styling with skirts or high-waisted trousers", "fabric": "53% Viscose, 27% Nylon, 14% Lyocell, 6% Linen", "care": "Dry cleaning", "price": 380, "pos": "Statement Piece / Editorial Driver\nHigh artisanal value: extensive hand-applied floral work, popular with influencers and social media", "look": 15, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-TOP-020-GRY-P0.jpg", "MF-SS-2026-TOP-020-GRY-P1.jpg", "SS26-LOOK-18.jpg"]}, {"sku": "MF-SS-2026-TOP-022-IVY", "season": "SS26", "name": "Petal Appliqué Crop Top", "color": "Ivory", "cat": "top", "desc": "Cropped top in linen-viscose blend with oversized hand-applied petal appliqués. Sculptural floral detailing creates a bold statement look, perfect for styling with skirts, tailoring, or high-waisted trousers", "fabric": "48% Linеn, 52% Viscose", "care": "Dry cleaning", "price": 380, "pos": "Statement Piece / Editorial Driver\nHighly photogenic, ideal for influencer dressing, social media, and window displays", "look": 1, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-TOP-022-IVY-P0.jpg", "MF-SS-2026-TOP-022-IVY-P1.jpg", "SS26-LOOK-19.jpg"]}, {"sku": "MF-SS-2026-CP-024-IVY", "season": "SS26", "name": "Petal Sleeve Cape Trench", "color": "Ivory", "cat": "cape", "desc": "Cape-style trench coat in linen-viscose blend with wide lapels and hand-applied floral appliqués on the sleeves. Lightweight layering piece that adds versatility to both day and evening looks", "fabric": "48% Linеn, 52% Viscose", "care": "Dry cleaning", "price": 890, "pos": "Commercial Hero / Layering Essential\nFunctional silhouette with fashion-forward details", "look": 11, "bridal": false, "hero": true, "imgs": ["MF-SS-2026-CP-024-IVY-P0.jpg", "MF-SS-2026-CP-024-IVY-P1.jpg", "SS26-LOOK-06.jpg", "SS26-LOOK-07.jpg"]}, {"sku": "MF-SS-2026-TOP-025-IVY", "season": "SS26", "name": "Bandeau Crop Top", "color": "Ivory", "cat": "top", "desc": "Bandeau crop top in polyamide-elastane blend with clean lines and structured fit. Lightweight and versatile, designed for layering or stand-alone summer styling", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 220, "pos": "Entry Point / Commercial Essential\nEasy styling: works with skirts, trousers, shorts", "look": 10, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-TOP-025-IVY-P0.jpg", "MF-SS-2026-TOP-025-IVY-P1.jpg", "SS26-LOOK-20.jpg", "SS26-LOOK-21.jpg"]}, {"sku": "MF-SS-2026-TOP-027-BLK", "season": "SS26", "name": "Bandeau Crop Top", "color": "Black", "cat": "top", "desc": "Bandeau crop top in polyamide-elastane blend with clean lines and structured fit. Lightweight and versatile, designed for layering or stand-alone summer styling", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 220, "pos": "Entry Point / Commercial Essential\nEasy styling: works with skirts, trousers, shorts", "look": 18, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-TOP-027-BLK-P0.jpg", "MF-SS-2026-TOP-027-BLK-P1.jpg", "SS26-LOOK-23.jpg"]}, {"sku": "MF-SS-2026-BLZ-029-WHT", "season": "SS26", "name": "Cascading Petal Blouse", "color": "White", "cat": "top", "desc": "Voluminous sheer blouse with cascading hand-applied floral appliqués. A sculptural, photogenic piece designed for special occasions, editorial shoots, and styling impact", "fabric": "100% Polyester", "care": "Dry cleaning", "price": 890, "pos": "Editorial / Statement Driver\nStrong value in store windows, campaigns, and influencer activations", "look": 22, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-BLZ-029-WHT-P0.jpg", "MF-SS-2026-BLZ-029-WHT-P1.jpg", "SS26-LOOK-02.jpg"]}, {"sku": "MF-SS-2026-JKT-006-GRY", "season": "SS26", "name": "Elastic Waist Jacket", "color": "Gray", "cat": "outer", "desc": "Structured tailored jacket in viscose-nylon blend with viscose-acetate lining. Features defined shoulders, elasticated waist detailing, and wide lapels. Designed for versatile styling with skirts, trousers, or dresses", "fabric": "53% Viscose, 27% Nylon, 14% Lyocell, 6% Linen Lining: 60%Viscose 40% Acetate", "care": "Dry cleaning", "price": 590, "pos": "Volume Driver / Commercial Hero\nPerfect cross-category styling: works for office, evening layering, and casual tailoring", "look": 14, "bridal": false, "hero": true, "imgs": ["MF-SS-2026-JKT-006-GRY-P0.jpg", "MF-SS-2026-JKT-006-GRY-P1.jpg", "SS26-LOOK-17.jpg"]}, {"sku": "MF-SS-2026-JKT-004-IVY", "season": "SS26", "name": "Elastic Waist Linen Jacket", "color": "Ivory", "cat": "outer", "desc": "Tailored jacket in linen-viscose blend with viscose-acetate lining. Features structured shoulders, wide lapels, and elasticated waist detail for a modern silhouette. Designed to style effortlessly with skirts, trousers, or dresses", "fabric": "48% Linеn, 52% Viscose Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": 590, "pos": "Volume Driver / Commercial Hero\nClassic tailoring reimagined with a modern twist (elasticated waist)", "look": 7, "bridal": false, "hero": true, "imgs": ["MF-SS-2026-JKT-004-IVY-P0.jpg", "MF-SS-2026-JKT-004-IVY-P1.jpg", "SS26-LOOK-16.jpg"]}, {"sku": "MF-SS-2026-BLZR-010-IVY", "season": "SS26", "name": "Cropped Pocket Blazer", "color": "Ivory", "cat": "outer", "desc": "Cropped blazer in linen-viscose blend with viscose-acetate lining. Features an architectural pocket design and elasticized hem for a modern, slightly boxy silhouette. Easy to style with skirts, trousers, or layered over dresses", "fabric": "48% Linеn, 52% Viscose, Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": 520, "pos": "Volume Driver / Commercial Hero\nElevated tailoring with a twist", "look": 8, "bridal": false, "hero": true, "imgs": ["MF-SS-2026-BLZR-010-IVY-P0.jpg", "MF-SS-2026-BLZR-010-IVY-P1.jpg", "SS26-LOOK-03.jpg"]}, {"sku": "MF-SS-2026-BLZR-012-BGE", "season": "SS26", "name": "Sequin Bomber Blazer", "color": "Beige", "cat": "outer", "desc": "Sequined blazer with viscose-acetate lining. Designed with a relaxed silhouette, front closure with crochet detail, and versatile styling options. Can be paired with skirts, trousers, or layered over dresses for evening and party looks", "fabric": "100% Polyester Lining: 60% Viscose, 40% Acetate", "care": "Dry cleaning", "price": 650, "pos": "Volume Driver / Commercial Hero\nHighly wearable cut", "look": 6, "bridal": false, "hero": true, "imgs": ["MF-SS-2026-BLZR-012-BGE-P0.jpg", "MF-SS-2026-BLZR-012-BGE-P1.jpg", "SS26-LOOK-04.jpg"]}, {"sku": "MF-SS-2026-SKT-013-BGE", "season": "SS26", "name": "Sequin Mini Skirt", "color": "Beige", "cat": "bottom", "desc": "Mini sequin skirt with viscose-acetate lining. Classic fitted silhouette, versatile for pairing with blouses, tailoring, or evening tops", "fabric": "100% Polyester Lining: 60% Viscose, 40% Acetate", "care": "Dry cleaning", "price": 260, "pos": "Volume Driver / Commercial Essential\nUniversally wearable", "look": 6, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-SKT-013-BGE-P0.jpg", "MF-SS-2026-SKT-013-BGE-P1.jpg", "SS26-LOOK-04.jpg"]}, {"sku": "MF-SS-2026-PNT-017-IVY", "season": "SS26", "name": "Linen Wide-Leg Trousers", "color": "Ivory", "cat": "bottom", "desc": "Classic tailored pants in a linen-viscose blend with a wide-leg silhouette. Minimalist design, versatile for styling with blouses, jackets, or statement tops", "fabric": "48% Linеn, 52% Viscose", "care": "Dry cleaning", "price": 420, "pos": "Volume Driver / Commercial Essential\nUniversally wearable", "look": 7, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-PNT-017-IVY-P0.jpg", "MF-SS-2026-PNT-017-IVY-P1.jpg", "SS26-LOOK-16.jpg"]}, {"sku": "MF-SS-2026-PNT-019-GRY", "season": "SS26", "name": "Wide-Leg Trousers", "color": "Gray", "cat": "bottom", "desc": "Classic tailored pants in a viscose blend with a wide-leg silhouette. Minimalist design, versatile for styling with blouses, jackets, or statement tops", "fabric": "53% Viscose, 27% Nylon, 14% Lyocell, 6% Linen", "care": "Dry cleaning", "price": 420, "pos": "Volume Driver / Commercial Essential\nUniversally wearable", "look": 13, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-PNT-019-GRY-P0.jpg", "MF-SS-2026-PNT-019-GRY-P1.jpg", "SS26-LOOK-01.jpg"]}, {"sku": "MF-SS-2026-SKT-021-GRY", "season": "SS26", "name": "Petal Cascade Midi Skirt", "color": "Gray", "cat": "bottom", "desc": "Midi skirt in viscose blend with viscose-acetate lining. Decorated with oversized hand-applied floral petal appliqués cascading along the silhouette, creating a sculptural, statement effect", "fabric": "53% Viscose, 27% Nylon, 14% Lyocell, 6% Linen Lining: 60% Viscose, 40% Acetate", "care": "Dry cleaning", "price": 520, "pos": "Statement Piece / Editorial Driver\nHighly photogenic, ideal for influencer dressing, social media, and window displays", "look": 15, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-SKT-021-GRY-P0.jpg", "MF-SS-2026-SKT-021-GRY-P1.jpg", "SS26-LOOK-18.jpg"]}, {"sku": "MF-SS-2026-SKT-023-IVY", "season": "SS26", "name": "Petal Cascade Midi Skirt", "color": "Ivory", "cat": "bottom", "desc": "Midi skirt in linen-viscose blend with viscose-acetate lining. Decorated with oversized hand-applied floral petal appliqués cascading along the silhouette, creating a sculptural, statement effect", "fabric": "48% Linеn, 52% Viscose Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": 520, "pos": "Statement Piece / Editorial Driver\nHighly photogenic, ideal for influencer dressing, social media, and window displays", "look": 1, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-SKT-023-IVY-P0.jpg", "MF-SS-2026-SKT-023-IVY-P1.jpg", "SS26-LOOK-19.jpg"]}, {"sku": "MF-SS-2026-SKT-026-IVY", "season": "SS26", "name": "Bridal Maxi Skirt", "color": "Ivory", "cat": "bottom", "desc": "Maxi skirt in polyamide-elastane blend with cascading hand-applied floral appliqués. Comes with a removable floral basque crafted entirely from 3D petals, allowing styling versatility — from bridal statement to eveningwear showpiece", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 720, "pos": "Statement / Bridal & Editorial Driver\nDouble wearability: skirt alone - elegant evening look, with basque - bridal or gala piece", "look": 20, "bridal": true, "hero": false, "imgs": ["MF-SS-2026-SKT-026-IVY-P0.jpg", "MF-SS-2026-SKT-026-IVY-P1.jpg", "SS26-LOOK-22.jpg"]}, {"sku": "MF-SS-2026-BSQ-038-IVY", "season": "SS26", "name": "3D Petal Basque", "color": "Ivory", "cat": "bottom", "desc": "Removable basque fully crafted from hand-applied 3D floral appliqués in polyamide-elastane blend. Designed to be styled over skirts, dresses, or trousers, adding couture-level drama to any look", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 420, "pos": "Statement Accessory / Styling Hero\nWorks as a transformative add-on", "look": 20, "bridal": false, "hero": true, "imgs": ["MF-SS-2026-BSQ-038-IVY-P0.jpg", "MF-SS-2026-BSQ-038-IVY-P1.jpg", "SS26-LOOK-22.jpg"]}, {"sku": "MF-SS-2026-SKT-028-BLK", "season": "SS26", "name": "Fitted Maxi Skirt", "color": "Black", "cat": "bottom", "desc": "Maxi skirt in polyamide-elastane blend with a clean fitted silhouette, styled with a removable floral appliqué basque. Can be worn alone as a versatile commercial skirt, or with the basque for a dramatic evening look", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 380, "pos": "Hybrid Piece – Volume Driver + Statement Option\nTwo-in-one versatility", "look": 18, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-SKT-028-BLK-P0.jpg", "MF-SS-2026-SKT-028-BLK-P1.jpg", "SS26-LOOK-23.jpg"]}, {"sku": "MF-SS-2026-BSQ-039-BLK", "season": "SS26", "name": "3D Petal Basque", "color": "Black", "cat": "bottom", "desc": "Removable basque fully crafted from hand-applied 3D floral appliqués in polyamide-elastane blend. Designed to be styled over skirts, dresses, or trousers, adding couture-level drama to any look", "fabric": "80% Polyamide, 20% Elastane", "care": "Dry cleaning", "price": 420, "pos": "Statement Accessory / Styling Hero\nWorks as a transformative add-on", "look": 18, "bridal": false, "hero": true, "imgs": ["MF-SS-2026-BSQ-039-BLK-P0.jpg", "MF-SS-2026-BSQ-039-BLK-P1.jpg", "SS26-LOOK-23.jpg"]}, {"sku": "MF-SS-2026-SHRT-031-IVY", "season": "SS26", "name": "Linen Mini Shorts", "color": "Ivory", "cat": "bottom", "desc": "Mini shorts in linen-viscose blend with viscose-acetate lining. Clean, tailored silhouette designed as a versatile summer staple, easy to pair with blouses, crop tops, or jackets", "fabric": "48% Linеn, 52% Viscose Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": 260, "pos": "Volume Driver / Entry Point Essential\nUniversally wearable", "look": 10, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-SHRT-031-IVY-P0.jpg", "MF-SS-2026-SHRT-031-IVY-P1.jpg", "SS26-LOOK-02.jpg", "SS26-LOOK-06.jpg"]}, {"sku": "MF-SS-2026-SKT-011-IVY", "season": "SS26", "name": "Linen Mini Skirt", "color": "Ivory", "cat": "bottom", "desc": "Mini skirt in linen-viscose blend with viscose-acetate lining. Clean, tailored silhouette with fitted waist, designed as a versatile staple to pair with tops, blouses, or jackets", "fabric": "48% Linеn, 52% Viscose Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": 280, "pos": "Volume Driver / Commercial Essential\nUniversally wearable cut", "look": 12, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-SKT-011-IVY-P0.jpg", "MF-SS-2026-SKT-011-IVY-P1.jpg", "SS26-LOOK-21.jpg"]}, {"sku": "MF-SS-2026-SKT-005-IVY", "season": "SS26", "name": "Linen Slit Midi Skirt", "color": "Ivory", "cat": "bottom", "desc": "Midi skirt in linen-viscose blend with viscose-acetate lining. Features a clean, tailored silhouette with an elegant front slit. Lightweight, versatile piece that pairs easily with blouses, crop tops, or jackets", "fabric": "48% Linеn, 52% Viscose Lining: 60% Viscose, 34% Acetate, 6% Elastane", "care": "Dry cleaning", "price": 380, "pos": "Volume Driver / Commercial Essential\nUniversally wearable cut", "look": 8, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-SKT-005-IVY-P0.jpg", "MF-SS-2026-SKT-005-IVY-P1.jpg", "SS26-LOOK-03.jpg"]}, {"sku": "MF-SS-2026-SKT-007-GRY", "season": "SS26", "name": "Slit Midi Skirt", "color": "Gray", "cat": "bottom", "desc": "Midi skirt in viscose-nylon blend with viscose-acetate lining. Tailored silhouette with an elegant front slit, versatile for day-to-night styling", "fabric": "53% Viscose, 27% Nylon, 14% Lyocell, 6% Linen Lining: 60%Viscose, 40% Acetate", "care": "Dry cleaning", "price": 380, "pos": "Volume Driver / Commercial Essential\nUniversally wearable cut", "look": 14, "bridal": false, "hero": false, "imgs": ["MF-SS-2026-SKT-007-GRY-P0.jpg", "MF-SS-2026-SKT-007-GRY-P1.jpg", "SS26-LOOK-17.jpg"]}], "looks26": [{"skus": ["MF-SS-2026-BLZ-016-IVY"], "img": "SS26-LOOK-00.jpg"}, {"skus": ["MF-SS-2026-BLZ-018-GRY", "MF-SS-2026-PNT-019-GRY"], "img": "SS26-LOOK-01.jpg"}, {"skus": ["MF-SS-2026-BLZ-029-WHT", "MF-SS-2026-SHRT-031-IVY"], "img": "SS26-LOOK-02.jpg"}, {"skus": ["MF-SS-2026-BLZR-010-IVY", "MF-SS-2026-SKT-005-IVY"], "img": "SS26-LOOK-03.jpg"}, {"skus": ["MF-SS-2026-BLZR-012-BGE", "MF-SS-2026-SKT-013-BGE"], "img": "SS26-LOOK-04.jpg"}, {"skus": ["MF-SS-2026-CP-001-GRY", "MF-SS-2026-TOP-014-GRY"], "img": "SS26-LOOK-05.jpg"}, {"skus": ["MF-SS-2026-CP-024-IVY", "MF-SS-2026-SHRT-031-IVY"], "img": "SS26-LOOK-06.jpg"}, {"skus": ["MF-SS-2026-CP-024-IVY"], "img": "SS26-LOOK-07.jpg"}, {"skus": ["MF-SS-2026-CP-032-BLK"], "img": "SS26-LOOK-08.jpg"}, {"skus": ["MF-SS-2026-CP-034-BLK"], "img": "SS26-LOOK-09.jpg"}, {"skus": ["MF-SS-2026-CP-036-IVY"], "img": "SS26-LOOK-10.jpg"}, {"skus": ["MF-SS-2026-DR-002-GRY"], "img": "SS26-LOOK-11.jpg"}, {"skus": ["MF-SS-2026-DR-003-BLK"], "img": "SS26-LOOK-12.jpg"}, {"skus": ["MF-SS-2026-DR-008-IVY"], "img": "SS26-LOOK-13.jpg"}, {"skus": ["MF-SS-2026-DR-009-GRY"], "img": "SS26-LOOK-14.jpg"}, {"skus": ["MF-SS-2026-DR-030-BGE"], "img": "SS26-LOOK-15.jpg"}, {"skus": ["MF-SS-2026-JKT-004-IVY", "MF-SS-2026-PNT-017-IVY"], "img": "SS26-LOOK-16.jpg"}, {"skus": ["MF-SS-2026-JKT-006-GRY", "MF-SS-2026-SKT-007-GRY"], "img": "SS26-LOOK-17.jpg"}, {"skus": ["MF-SS-2026-TOP-020-GRY", "MF-SS-2026-SKT-021-GRY"], "img": "SS26-LOOK-18.jpg"}, {"skus": ["MF-SS-2026-TOP-022-IVY", "MF-SS-2026-SKT-023-IVY"], "img": "SS26-LOOK-19.jpg"}, {"skus": ["MF-SS-2026-TOP-025-IVY", "MF-SS-2026-SHRT-031-IVY"], "img": "SS26-LOOK-20.jpg"}, {"skus": ["MF-SS-2026-TOP-025-IVY", "MF-SS-2026-SKT-011-IVY"], "img": "SS26-LOOK-21.jpg"}, {"skus": ["MF-SS-2026-TOP-025-IVY", "MF-SS-2026-SKT-026-IVY", "MF-SS-2026-BSQ-038-IVY"], "img": "SS26-LOOK-22.jpg"}, {"skus": ["MF-SS-2026-TOP-027-BLK", "MF-SS-2026-SKT-028-BLK", "MF-SS-2026-BSQ-039-BLK"], "img": "SS26-LOOK-23.jpg"}]}</script>
+<script>
+const APP=window.matchMedia('(max-width: 600px)').matches;if(APP)document.documentElement.classList.add('app');
+document.addEventListener('error',e=>{const t=e.target;if(t.tagName!=='IMG'||!t.src||t.src.startsWith('data:'))return;const n=+(t.dataset.retry||0);if(n>=3)return;t.dataset.retry=n+1;const u=t.src.split('?')[0];setTimeout(()=>{t.src=u+'?r='+(n+1)},800*(n+1))},true);
+const D=JSON.parse(document.getElementById('data').textContent);
+const PR=D.products, BY={}; PR.forEach(p=>BY[p.sku]=p);
+const img=f=>'img/'+f, th=f=>'img/t/'+f;
+const IC={
+ back:'<path d="M15 5l-7 7 7 7"/>',bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+ bag:'<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+ home:'<path d="M4 11l8-6 8 6v9h-5v-6h-6v6H4z"/>',grid:'<rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/>',
+ chat:'<path d="M5 5h14v10H10l-5 4z"/>',hanger:'<path d="M12 7a2 2 0 1 1 2-2"/><path d="M12 7v2l9 7H3l9-7"/>',
+ camera:'<path d="M4 8h3l2-2h6l2 2h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',ruler:'<path d="M3 15L15 3l6 6L9 21z"/><path d="M7 11l2 2M10 8l2 2M13 5l2 2"/>',
+ ring:'<circle cx="12" cy="14" r="6"/><path d="M9 5l3 3 3-3-1.5-2h-3z"/>',video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/>',
+ send:'<path d="M4 12l16-8-6 16-2-6z"/>',check:'<path d="M5 12.5l4.5 4.5L19 7"/>',spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>',
+ upload:'<path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/>',clock:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
+ needle:'<path d="M18 4L6 16"/><path d="M5 19c1-2 2-2 3-1s-1 3-3 1z"/><circle cx="17" cy="5" r="1"/>',share:'<path d="M12 4v11M7 9l5-5 5 5"/><path d="M5 13v7h14v-7"/>',
+ gift:'<rect x="4" y="9" width="16" height="11"/><path d="M12 9v11M4 13h16M12 9c-2-4-6-3-5 0M12 9c2-4 6-3 5 0"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+ nfc:'<path d="M8 8a6 6 0 0 1 0 8M11 6a9 9 0 0 1 0 12M14 4a12 12 0 0 1 0 16"/>',book:'<path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6z"/>',
+ person:'<circle cx="12" cy="7" r="3.2"/><path d="M6 21v-5a6 6 0 0 1 12 0v5"/>'
+};
+const ic=(n,c='ico')=>`<svg class="${c}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
+const eur=p=>p.price?'€'+p.price.toLocaleString('en-US'):'У складі сету';
+const SEASON={SS27:'Her Own Rhythm',SS26:'The Strength of Lightness'};
+const CATS=[['all','Усі'],['dress','Сукні'],['cape','Кейпи'],['top','Топи і блузи'],['outer','Жакети'],['bottom','Низ'],['bridal','Bridal']];
+const CATN={dress:'Сукня',cape:'Кейп',top:'Топ',outer:'Жакет',bottom:'Низ'};
+
+/* Real MF size chart (cm), from the linesheet */
+const SIZES=['XS','S','M','L'], CONV={XS:[2,34,6],S:[4,36,8],M:[6,38,10],L:[8,40,12]};
+const START={chest:82,waist:62,hips:90}, ZN={chest:'Груди',waist:'Талія',hips:'Стегна'};
+function zone(z,v){return Math.floor((v-START[z])/4)}
+function fitFor(m){
+  const zi={};let top=-9;
+  for(const z in START){zi[z]=zone(z,m[z]);top=Math.max(top,zi[z])}
+  const idx=Math.min(3,Math.max(0,top)), over=top>3, under=top<0;
+  const notes={};
+  for(const z in START){const typ=START[z]+2+4*idx, d=typ-m[z];
+    notes[z]={d,txt:Math.abs(d)<=1?'як задумано':d>0?`вільніше на ${d} см`:`щільніше на ${-d} см`,pos:Math.max(4,Math.min(96,50-d*8))}}
+  return {size:SIZES[idx],idx,over,under,notes};
+}
+
+const S={stack:[],cur:'home',season:'SS27',cat:'all',prod:'MF-SS-2027-CP-005-PWD',feed:'SS27',
+  meas:{chest:87,waist:67,hips:95},photo:null,tried:false,cart:0,toast:null};
+const deadline=Date.now()+((47*60+12)*60+9)*1000;
+function cd(){let s=Math.max(0,Math.floor((deadline-Date.now())/1000));return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(v=>String(v).padStart(2,'0'))}
+
+const META={
+ home:{n:'Головна',st:'MVP',d:'Ранній доступ до SS27 Her Own Rhythm з таймером, слова з вашого прес-релізу, повідомлення стилістки.'},
+ lookbook:{n:'Лукбук',st:'MVP',d:'Стрічка образів SS27 і SS26. Кожне фото веде до виробу, для SS26 видно весь образ.'},
+ collection:{n:'Колекція',st:'MVP',d:'71 виріб з двох сезонів, фільтри за категоріями та окремий фільтр Bridal.'},
+ product:{n:'Картка виробу',st:'MVP',d:'Галерея, опис і склад з лайншиту, розмір від AI за вашою сіткою, речі для образу.'},
+ tryon:{n:'AI-примірка',st:'V2',d:'Клієнтка завантажує своє фото, обирає виріб і отримує образ на собі.'},
+ size:{n:'Мій розмір',st:'V2',d:'Робочий калькулятор: груди, талія, стегна дають розмір MF з переведенням у US, EU, UK.'},
+ passport:{n:'Цифровий паспорт',st:'MVP',d:'NFC-мітка у виробі: автентичність, склад, догляд, історія, підгонка і перепродаж.'},
+ chat:{n:'Особиста стилістка',st:'MVP',d:'Чат з образом із колекції: кейп і сукня, які в лайншиті задумані разом.'},
+ bridal:{n:'Bridal Journey',st:'V2',d:'Відлік до весілля, графік примірок, весільні речі обох сезонів і голосування подруг.'},
+ wardrobe:{n:'Гардероб і Petal Circle',st:'V3',d:'Куплені речі з паспортами, рівні лояльності, AI підбирає до них речі з SS27.'}
+};
+const ORDER=Object.keys(META);
+const TABOF={home:'home',lookbook:'home',bridal:'home',collection:'collection',product:'collection',tryon:'collection',size:'collection',chat:'chat',wardrobe:'wardrobe',passport:'wardrobe'};
+const PAIRS={'MF-SS-2027-CP-005-PWD':['MF-SS-2027-DR-004-PWD','MF-SS-2027-DR-003-PWD'],'MF-SS-2027-DR-004-PWD':['MF-SS-2027-CP-005-PWD'],
+ 'MF-SS-2027-JKT-017-IVY':['MF-SS-2027-SHRT-018-IVY','MF-SS-2027-TOP-028-IVY'],'MF-SS-2027-SHRT-018-IVY':['MF-SS-2027-JKT-017-IVY'],
+ 'MF-SS-2027-BLZR-026-IVY':['MF-SS-2027-SKT-027-IVY','MF-SS-2027-TOP-028-IVY'],'MF-SS-2027-BLZ-025-CRM':['MF-SS-2027-PNT-022-CRM'],
+ 'MF-SS-2027-BLZ-031-BGE':['MF-SS-2027-PNT-022-CRM','MF-SS-2027-DR-030-BGE'],'MF-SS-2027-CT-020-CRM':['MF-SS-2027-PNT-022-CRM','MF-SS-2027-BLZ-025-CRM']};
+function companions(p){
+  let l=PAIRS[p.sku]||[];
+  if(p.season==='SS26'){const s=new Set();D.looks26.forEach(x=>{if(x.skus.includes(p.sku))x.skus.forEach(k=>k!==p.sku&&BY[k]&&s.add(k))});l=[...l,...s]}
+  if(l.length<2){PR.filter(q=>q.season===p.season&&q.sku!==p.sku&&q.color===p.color&&q.cat!==p.cat).slice(0,3-l.length).forEach(q=>l.push(q.sku))}
+  return [...new Set(l)].filter(k=>BY[k]).slice(0,4).map(k=>BY[k]);
+}
+const card=(p,extra='',cls='pc')=>`<div class="${cls}" data-go="product" data-p="${p.sku}"><div class="rel"><img class="ph" loading="lazy" decoding="async" src="${th(p.imgs[0])}" alt="${p.name}, ${p.color}">${extra}</div><div class="nm">${p.name}<small>${p.color}</small></div><div class="price">${eur(p)}</div></div>`;
+const hdr=(title,right='')=>`<div class="hdr"><button class="ib" data-go="back" aria-label="Назад">${ic('back')}</button><span class="t">${title}</span>${right||'<span class="ib"></span>'}</div>`;
+const bagBtn=()=>`<button class="ib" aria-label="Кошик">${ic('bag')}${S.cart?`<span class="cnt">${S.cart}</span>`:''}</button>`;
+
+function sizeRes(){const f=fitFor(S.meas),c=CONV[f.size];
+ return `<div class="big"><div class="sz">${f.size}</div><div><div class="k">Ваш розмір</div><div class="conv"><span>US ${c[0]}</span><span>EU ${c[1]}</span><span>UK ${c[2]}</span></div>
+  <div style="font-size:12.5px;margin-top:6px;line-height:1.4">${f.over?'Мірки більші за L. Стилістка запропонує індивідуальний пошив.':f.under?'Мірки менші за XS. Підгонку в ательє зробимо безкоштовно.':'Розмір визначено за найширшою зоною.'}</div></div></div>
+ <div class="fit">${Object.keys(START).map(z=>`<div><div class="l"><span>${ZN[z]}</span><em>${f.notes[z].txt}</em></div><div class="bar"><i style="left:${f.notes[z].pos}%"></i></div></div>`).join('')}</div>
+ <div class="sec"><h3>Розмірна сітка</h3></div>
+ <table class="chart"><thead><tr><th>MF</th><th>Груди</th><th>Талія</th><th>Стегна</th><th>EU</th></tr></thead><tbody>
+ ${SIZES.map((z,i)=>`<tr class="${z===f.size?'on':''}"><td>${z}</td><td>${82+4*i}–${86+4*i}</td><td>${62+4*i}–${66+4*i}</td><td>${90+4*i}–${94+4*i}</td><td>${CONV[z][1]}</td></tr>`).join('')}</tbody></table>`}
+
+const SCR={
+home(){const [h,m,s]=cd(),hero=BY['MF-SS-2027-CP-005-PWD'];
+ const heroes=['MF-SS-2027-CP-005-PWD','MF-SS-2027-CP-010-GRG','MF-SS-2027-DR-001-WHT','MF-SS-2027-DR-008-BLK','MF-SS-2027-CT-020-CRM','MF-SS-2027-DR-030-BGE'].map(k=>BY[k]);
+ return `
+ <div class="hero" data-go="collection" data-season="SS27"><img fetchpriority="high" src="${img(hero.imgs[0])}" alt="Pleated Petal Cape, SS27"><div class="shade"></div>
+  <div class="logo">Malva Florea</div>
+  <div class="tx"><div class="k">Ранній доступ · лише для вас</div>
+  <h2 class="dsp" style="font-size:36px;margin-top:8px">Her Own <span class="it">Rhythm</span></h2>
+  <div class="k" style="margin-top:4px">Spring-Summer 2027</div>
+  <div class="cd" data-cd><span>${h}<small>год</small></span><span>${m}<small>хв</small></span><span>${s}<small>сек</small></span></div>
+  <button class="btn lt" data-go="collection" data-season="SS27">Дивитися колекцію</button></div>
+ </div>
+ <p class="quote">Колекція, створена змінюватися разом із жінкою.<small>Прес-реліз SS27</small></p>
+ <div class="sec"><h3>Від вашої стилістки</h3></div>
+ <div class="msgprev" data-go="chat"><div class="av">О</div><p><b style="font-weight:500">Олена</b><br>Я відклала для вас Pleated Petal Cape у розмірі S до неділі.</p></div>
+ <div class="sec"><h3 class="it">Hero pieces</h3><a data-go="collection" data-season="SS27">Усі</a></div>
+ <div class="hs">${heroes.map(p=>card(p)).join('')}</div>
+ <div class="sec"><h3>Ательє</h3></div>
+ <div class="tiles">
+  <div class="tile" data-go="lookbook">${ic('book')}<div><b>Лукбук</b><span>Образи SS27 і SS26</span></div></div>
+  <div class="tile" data-go="tryon">${ic('camera')}<div><b>Приміряти</b><span>AI-примірка на вашому фото</span></div></div>
+  <div class="tile" data-go="size">${ic('ruler')}<div><b>Мій розмір</b><span>За сіткою Malva Florea</span></div></div>
+  <div class="tile" data-go="bridal">${ic('ring')}<div><b>Bridal</b><span>Шлях до весільного образу</span></div></div>
+ </div>`},
+
+lookbook(){
+ const items=S.feed==='SS27'
+  ? PR.filter(p=>p.season==='SS27').sort((a,b)=>(a.look||99)-(b.look||99)).map(p=>({img:p.imgs[0],look:p.look,ps:[p]}))
+  : D.looks26.map((l,i)=>({img:l.img,look:i+1,ps:l.skus.map(k=>BY[k]).filter(Boolean)})).filter(x=>x.ps.length);
+ return `${hdr('Лукбук',bagBtn())}
+ <div class="season">${['SS27','SS26'].map(s=>`<button class="${S.feed===s?'on':''}" data-feed="${s}">${s}<small>${SEASON[s]}</small></button>`).join('')}</div>
+ <div class="feed">${items.map(x=>{const p=x.ps[0];const tot=x.ps.reduce((a,q)=>a+(q.price||0),0);return `<div class="lk" data-go="product" data-p="${p.sku}"><img loading="lazy" decoding="async" src="${img(x.img)}" alt="Look ${x.look}"><span class="num">Look ${x.look}</span>
+  <div class="cap"><div><b>${x.ps.map(q=>q.name).join(' + ')}</b><small>${x.ps.length>1?'Образ · €'+tot.toLocaleString('en-US'):p.color+' · '+eur(p)}</small></div><span class="shop">Купити</span></div></div>`}).join('')}</div>`},
+
+collection(){
+ const list=PR.filter(p=>p.season===S.season&&(S.cat==='all'||(S.cat==='bridal'?p.bridal:p.cat===S.cat)));
+ return `${hdr('Колекція',bagBtn())}
+ <div class="season">${['SS27','SS26'].map(s=>`<button class="${S.season===s?'on':''}" data-season="${s}">${s}<small>${SEASON[s]}</small></button>`).join('')}</div>
+ <div class="chips">${CATS.map(([k,l])=>`<span class="chip${S.cat===k?' on':''}" data-cat="${k}">${l}</span>`).join('')}</div>
+ <p class="count">${list.length} ${list.length%10===1&&list.length%100!==11?'виріб':(list.length%10>=2&&list.length%10<=4&&(list.length%100<10||list.length%100>=20))?'вироби':'виробів'}</p>
+ <div class="g2" style="margin-top:12px">${list.length?list.map(p=>card(p,S.season==='SS27'&&p.hero?'<span class="badge">Ранній доступ</span>':p.bridal?'<span class="badge">Bridal</span>':'')).join(''):'<p class="fine">У цьому сезоні немає речей цієї категорії.</p>'}</div>`},
+
+product(){const p=BY[S.prod], f=fitFor(S.meas), comp=companions(p);
+ return `${hdr(p.season+' · '+SEASON[p.season],bagBtn())}
+ <div class="gal" data-gal>${p.imgs.map((f,i)=>`<img ${i?'loading="lazy" ':''}decoding="async" src="${img(f)}" alt="${p.name}">`).join('')}</div>
+ ${p.imgs.length>1?`<div class="galn" data-galn>${p.imgs.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div>`:''}
+ <div class="row" style="align-items:flex-start;margin-top:16px"><div><div class="k">${p.look?'Look '+p.look+' · ':''}${CATN[p.cat]||''}${p.bridal?' · Bridal':''}</div><h2 class="dsp" style="font-size:26px;margin-top:6px">${p.name}</h2><div style="font-size:13px;color:var(--p-muted);margin-top:4px">${p.color}</div></div><div class="price" style="font-size:17px;white-space:nowrap;padding-top:18px">${eur(p)}</div></div>
+ <div class="row" style="margin:18px 0 10px"><span style="font-size:13px">Розмір</span><span class="k" data-go="size" style="cursor:pointer">Мій розмір</span></div>
+ <div class="sizes">${SIZES.map(z=>`<span class="${z===f.size?'ai':''}">${z}<small>EU ${CONV[z][1]}</small></span>`).join('')}</div>
+ <div class="ailine" data-go="size">${ic('spark','ico s')}<span>За вашими мірками радимо <b style="font-weight:500">${f.size}</b>: груди ${f.notes.chest.txt}, талія ${f.notes.waist.txt}, стегна ${f.notes.hips.txt}.</span></div>
+ <div class="btns"><button class="btn" data-go="tryon">${ic('camera','ico s')} Приміряти на собі</button>
+ <div class="two"><button class="btn gh" data-act="reserve">${ic('clock','ico s')} Відкласти</button><button class="btn gh" data-act="cart">${ic('bag','ico s')} У кошик</button></div></div>
+ <p class="desc">${p.desc}</p><div class="lang">Опис з лайншиту, мовою оригіналу</div>
+ <dl class="fl"><dt>Склад</dt><dd>${p.fabric}</dd><dt>Догляд</dt><dd>Лише хімчистка</dd><dt>Артикул</dt><dd class="mono">${p.sku}</dd><dt>Паспорт</dt><dd>NFC-мітка у виробі</dd></dl>
+ ${comp.length?`<div class="sec"><h3>Доповніть образ</h3></div><div class="hs">${comp.map(q=>card(q)).join('')}</div>`:''}
+ <div class="ailine" data-go="chat" style="background:var(--p-greige);margin-top:20px">${ic('chat','ico s')}<span>Запитати Олену, з чим поєднати</span></div>`},
+
+tryon(){const p=BY[S.prod];
+ return `${hdr('AI-примірка')}
+ <h2 class="dsp" style="font-size:26px">Побачте річ <span class="it">на собі</span></h2>
+ <p class="fine" style="margin-top:6px">Одне фото на повний зріст при денному світлі.</p>
+ <div class="tryrow" style="margin-top:14px">
+  <label class="slot" for="tryon-photo">${S.photo?`<img src="${S.photo}" alt="Ваше фото">`:`<span class="empty">${ic('person')}Завантажити своє фото</span>`}<span class="lbl">1 · Ви</span><input type="file" id="tryon-photo" accept="image/*"></label>
+  <div class="slot" data-go="collection"><img src="${th(p.imgs[p.season==='SS26'?0:0])}" alt="${p.name}"><span class="lbl">2 · ${p.name.length>18?CATN[p.cat]:p.name}</span></div>
+ </div>
+ <div class="btns"><button class="btn" data-act="try">${ic('spark','ico s')} ${S.tried?'Створити ще раз':'Створити примірку'}</button></div>
+ ${S.tried?`<div class="result"><img src="${img((p.season==='SS27'?p.imgs:[...p.imgs].reverse())[0])}" alt="Результат примірки"><span class="tag"><i></i>Демо-результат</span></div>
+ <p class="fine">У робочій версії тут буде ваше фото в цьому виробі. Зараз показано фото з лукбука.</p>
+ <div class="btns"><div class="two"><button class="btn gh sm" data-go="chat">${ic('share','ico s')} Стилістці</button><button class="btn sm" data-act="cart">${ic('bag','ico s')} У кошик</button></div></div>`:''}
+ <p class="fine">Фото використовується лише для примірки і не зберігається без вашої згоди.</p>`},
+
+size(){const m=S.meas;
+ return `${hdr('Мій розмір')}
+ <h2 class="dsp" style="font-size:26px">Розмір за сіткою <span class="it">Malva Florea</span></h2>
+ <p class="fine" style="margin-top:6px">Пересуньте повзунки. У робочій версії мірки визначаються за двома фото.</p>
+ ${Object.keys(START).map(z=>`<div class="sl"><div class="l"><span>${ZN[z]}</span><b data-mv="${z}">${m[z]} см</b></div><input type="range" id="m-${z}" data-meas="${z}" min="${START[z]-2}" max="${START[z]+18}" value="${m[z]}" aria-label="${ZN[z]}, см"></div>`).join('')}
+ <div data-sizeres>${sizeRes()}</div>
+ <div class="btns"><button class="btn" data-act="savesize">Зберегти мірки</button></div>`},
+
+passport(){const p=BY['MF-SS-2026-CP-036-IVY'];
+ return `${hdr('Цифровий паспорт')}
+ <div class="seal"><span class="c">${ic('check','ico s')}</span><span><b>Автентичний виріб Malva Florea</b>NFC-мітку перевірено щойно</span></div>
+ <div class="pp" data-go="product" data-p="${p.sku}"><img src="${th(p.imgs[0])}" alt="${p.name}"><div><div class="serial">№ 0042 / 0150</div><h2 class="dsp" style="font-size:21px;margin-top:4px">${p.name}</h2><div class="k" style="margin-top:4px">SS26 · ${SEASON.SS26}</div></div></div>
+ <dl class="fl"><dt>Артикул</dt><dd class="mono">${p.sku}</dd><dt>Склад кейпа</dt><dd>${p.fabric}</dd><dt>Ручна робота</dt><dd>Каскад квіткових волан</dd><dt>Догляд</dt><dd>Лише хімчистка</dd><dt>Ціна покупки</dt><dd>${eur(p)}</dd></dl>
+ <div class="sec"><h3>Історія виробу</h3></div>
+ <ul class="tl"><li class="done">Створено в ательє Malva Florea, Київ<small>лютий 2026</small></li><li class="done">Придбано Марією<small>квітень 2026</small></li><li class="done">Підгонка сукні по талії<small>травень 2026</small></li><li class="next">Сезонний догляд за шовком<small>рекомендовано у жовтні 2026</small></li></ul>
+ <div class="btns" style="margin-top:4px"><button class="btn" data-act="fitting">${ic('needle','ico s')} Записатися на підгонку</button></div>
+ <div class="resale"><div class="k">Re-Bloom</div><p>Річ більше не носите? Бренд перевірить її і перепродасть. Ви отримаєте кредит до <b style="font-weight:500">€700</b> на нову колекцію.</p><button class="btn lt">Оцінити для перепродажу</button></div>`},
+
+chat(){const a=BY['MF-SS-2027-CP-005-PWD'],b=BY['MF-SS-2027-DR-004-PWD'];
+ return `<div class="hdr"><div class="who" style="padding-left:6px"><div class="av">О</div><div><b>Олена, стилістка</b><small><i></i>онлайн · Київ</small></div></div><button class="ib" aria-label="Відеодзвінок">${ic('video')}</button></div>
+ <div class="chat">
+  <div class="m in">Добрий день, Маріє! SS27 Her Own Rhythm відкрилась для вас сьогодні. Я відклала кейп у вашому розмірі S до неділі.<small>10:24</small></div>
+  <div class="mini-p" data-go="product" data-p="${a.sku}"><img src="${th(a.imgs[0])}" alt=""><div>${a.name}<br>${eur(a)}<small>Відкладено до неділі</small></div></div>
+  <div class="m out">Дякую! А що під нього вдягнути на вечір?<small>10:31</small></div>
+  <div class="m in">Кейп задуманий разом із сукнею Fluid Maxi Slip того ж кольору Powder. Ось образ:<small>10:33</small></div>
+  <div class="look">${[a,b].map(p=>card(p)).join('')}</div>
+  <span class="aitag">${ic('spark','ico s')} Чернетка від AI, перевірена Оленою</span>
+  <div class="chips" style="margin-top:4px"><span class="chip" data-go="tryon">${ic('camera','ico s')} Приміряти образ</span><span class="chip">${ic('video','ico s')} Відеопримірка</span><span class="chip" data-go="lookbook">Інші образи</span></div>
+  <div class="composer"><div class="in">Повідомлення…</div><span class="send">${ic('send','ico s')}</span></div>
+ </div>`},
+
+bridal(){const r=42,C=2*Math.PI*r,pct=.61, br=PR.filter(p=>p.bridal), mood=['MF-SS-2027-DR-014-IVY','MF-SS-2026-CP-036-IVY','MF-SS-2027-DR-001-WHT'].map(k=>BY[k]);
+ return `${hdr('Bridal Journey')}
+ <div class="ring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${r}" fill="none" stroke="#fff" stroke-width="6"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="#9A6A6F" stroke-width="6" stroke-linecap="round" stroke-dasharray="${(C*pct).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/><text x="50" y="56" text-anchor="middle" font-family="Bodoni Moda, Georgia, serif" font-size="21" fill="#1D191B">142</text></svg>
+  <div><div class="k">До весілля</div><div class="num">142 дні</div><div style="font-size:12.5px;color:var(--p-muted)">21 лютого 2027 · Львів</div></div></div>
+ <div class="sec"><h3>Ваш шлях</h3></div>
+ <ul class="tl"><li class="done">Консультація в ательє<small>відео · 3 вересня</small></li><li class="done">Вибір образу<small>20 вересня</small></li><li class="next">Перша примірка<small>14 листопада, 12:00 · Київ або відео</small></li><li>Друга примірка<small>січень 2027</small></li><li>Фінальна підгонка й доставка<small>до 7 лютого 2027</small></li></ul>
+ <div class="sec"><h3>Мудборд</h3><a data-act="share">Поділитися</a></div>
+ <div class="mood">${mood.map((p,i)=>`<div class="rel" data-go="product" data-p="${p.sku}" style="cursor:pointer"><img class="ph" loading="lazy" src="${th(p.imgs[0])}" alt="${p.name}"><span class="vote${i===0?' win':''}">${['5 з 6','1 з 6','0 з 6'][i]}</span></div>`).join('')}</div>
+ <p class="fine">Мама й подруги голосують за посиланням, без завантаження застосунку.</p>
+ <div class="sec"><h3>Bridal-добірка</h3><a data-go="collection" data-cat="bridal">Усі · ${br.length}</a></div>
+ <div class="hs">${br.map(p=>card(p)).join('')}</div>
+ <div class="btns"><button class="btn" data-go="chat">${ic('video','ico s')} Відеозв'язок з ательє</button></div>`},
+
+wardrobe(){const mine=['MF-SS-2026-CP-036-IVY','MF-SS-2026-BLZ-016-IVY','MF-SS-2026-PNT-017-IVY','MF-SS-2026-SKT-013-BGE'].map(k=>BY[k]);
+ const pr1=[BY['MF-SS-2026-PNT-017-IVY'],BY['MF-SS-2027-BLZ-025-CRM']], pr2=[BY['MF-SS-2026-SKT-013-BGE'],BY['MF-SS-2027-BLZ-031-BGE']];
+ const pair=(a,b,t)=>`<div class="pair" data-go="product" data-p="${b.sku}"><img src="${th(a.imgs[0])}" alt="${a.name}"><span class="plus">+</span><img src="${th(b.imgs[0])}" alt="${b.name}"><p>${t}</p></div>`;
+ return `<div class="hdr"><span class="t" style="padding-left:6px">Гардероб</span><button class="ib" data-go="passport" aria-label="Сканувати виріб">${ic('nfc')}</button></div>
+ <div class="lvl"><div class="k">Petal Circle</div><h2 class="dsp" style="font-size:30px;margin-top:6px">Bloom</h2>
+  <div class="tiers"><span>Bud</span><b>Bloom</b><span>Florea</span></div><div class="pg"><i></i></div>
+  <p>Ще 2 покупки до рівня Florea: приватний показ і персональний пошив.</p></div>
+ <div class="sec"><h3>Ваші привілеї</h3></div>
+ <div class="perks"><div>${ic('eye','ico s')}Колекції за 48 год до сайту<small>Активно</small></div><div>${ic('needle','ico s')}Одна безкоштовна підгонка на рік<small>Активно</small></div><div>${ic('gift','ico s')}Запрошення на показ у Києві<small>Florea</small></div></div>
+ <div class="sec"><h3>Мої речі · 4</h3></div>
+ <div class="g2">${mine.map(p=>`<div class="pc" data-go="passport"><div class="rel"><img class="ph" loading="lazy" src="${th(p.imgs[0])}" alt="${p.name}"><span class="pass">${ic('nfc','ico s')}Паспорт</span></div><div class="nm">${p.name}<small>${p.color} · SS26</small></div></div>`).join('')}</div>
+ <div class="sec"><h3>AI радить до ваших речей</h3></div>
+ <div style="display:flex;flex-direction:column;gap:10px">${pair(...pr1,'До ваших Linen Wide-Leg Trousers: сорочка Peplum Bateau Shirt з SS27, '+eur(pr1[1]))}${pair(...pr2,'До вашої Sequin Mini Skirt: Sequin Halter Top з SS27, '+eur(pr2[1]))}</div>`}
+};
+
+function phoneHTML(id){
+  const tab=TABOF[id], ovl=id==='home';
+  const tabs=[['home','home','Головна'],['collection','grid','Колекція'],['chat','chat','Стилістка'],['wardrobe','hanger','Гардероб']];
+  const bars=`<svg width="17" height="11" viewBox="0 0 17 11" aria-hidden="true"><rect x="0" y="7" width="3" height="4" rx="1" fill="#1D191B"/><rect x="4.5" y="5" width="3" height="6" rx="1" fill="#1D191B"/><rect x="9" y="2.5" width="3" height="8.5" rx="1" fill="#1D191B"/><rect x="13.5" y="0" width="3" height="11" rx="1" fill="#1D191B"/></svg><svg width="25" height="12" viewBox="0 0 25 12" aria-hidden="true"><rect x="2" y="2" width="16" height="8" rx="2" fill="#1D191B"/><rect x="23" y="4" width="1.5" height="4" rx="1" fill="#1D191B"/></svg>`;
+  return `<div class="scr"><div class="status${ovl?' ov':''}"><span>9:41</span><span class="isl"></span><span class="sig">${bars}</span></div>
+  <div class="body">${SCR[id]()}</div>
+  ${S.toast?`<div class="toast" role="status">${ic('check','ico s')}${S.toast}</div>`:''}
+  <nav class="tabbar">${tabs.map(([k,i,l])=>`<button class="${k===tab?'on':''}" data-tab="${k}">${ic(i)}${l}</button>`).join('')}</nav></div>`;
+}
+
+const phone=document.getElementById('phone'), idx=document.getElementById('idx');
+let toastT;
+function toast(t){S.toast=t;render(true);clearTimeout(toastT);toastT=setTimeout(()=>{S.toast=null;const el=phone.querySelector('.toast');if(el)el.remove()},2200)}
+function render(keep){
+  const b=phone.querySelector('.body'), y=keep&&b?b.scrollTop:0;
+  phone.innerHTML=phoneHTML(S.cur);
+  const nb=phone.querySelector('.body'); if(nb) nb.scrollTop=y;
+  idx.querySelectorAll('button').forEach(x=>x.setAttribute('aria-current',x.dataset.id===S.cur?'true':'false'));
+  const inp=phone.querySelector('#tryon-photo');
+  if(inp) inp.addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{S.photo=r.result;S.tried=false;render(true)};r.readAsDataURL(f)});
+  phone.querySelectorAll('[data-meas]').forEach(r=>r.addEventListener('input',()=>{const z=r.dataset.meas;S.meas[z]=+r.value;phone.querySelector(`[data-mv="${z}"]`).textContent=r.value+' см';phone.querySelector('[data-sizeres]').innerHTML=sizeRes()}));
+  const g=phone.querySelector('[data-gal]'),gn=phone.querySelector('[data-galn]');
+  if(g&&gn) g.addEventListener('scroll',()=>{const i=Math.round(g.scrollLeft/g.clientWidth);gn.querySelectorAll('i').forEach((d,j)=>d.classList.toggle('on',i===j))},{passive:true});
+}
+function go(id,push=true){if(push&&id!==S.cur)S.stack.push(S.cur);S.cur=id;S.toast=null;render(false)}
+idx.innerHTML=ORDER.map(k=>`<button data-id="${k}"><span class="n">${META[k].n}</span><span class="stage ${META[k].st==='MVP'?'mvp':''}">${META[k].st}</span><span class="d">${META[k].d}</span></button>`).join('');
+idx.addEventListener('click',e=>{const b=e.target.closest('button');if(b)go(b.dataset.id)});
+
+phone.addEventListener('click',e=>{
+  const t=e.target;
+  const fd=t.closest('[data-feed]'); if(fd){S.feed=fd.dataset.feed;render(false);return}
+  const ct=t.closest('[data-cat]'); if(ct){S.cat=ct.dataset.cat;if(S.cur!=='collection'){S.season=S.cat==='bridal'?S.season:S.season;go('collection')}else render(true);return}
+  const tb=t.closest('[data-tab]'); if(tb){S.stack=[];go(tb.dataset.tab,false);return}
+  const a=t.closest('[data-act]');
+  if(a){const k=a.dataset.act;
+    if(k==='reserve')toast('Відкладено до неділі. Стилістка отримала сповіщення.');
+    if(k==='cart'){S.cart++;toast('Додано в кошик')}
+    if(k==='try'){S.tried=true;render(true);const b=phone.querySelector('.body');if(b)b.scrollTo({top:b.scrollHeight,behavior:'smooth'})}
+    if(k==='savesize')toast('Мірки збережено. Розмір показано на кожній картці.');
+    if(k==='fitting')toast('Запит надіслано в ательє');
+    if(k==='share')toast('Посилання на мудборд скопійовано');
+    return}
+  const g=t.closest('[data-go]');
+  const se=t.closest('[data-season]');
+  if(se&&!g){S.season=se.dataset.season;S.cat='all';render(true);return}
+  if(!g) return;
+  if(g.dataset.go==='back'){go(S.stack.pop()||'home',false);return}
+  if(g.dataset.season){S.season=g.dataset.season;S.cat='all'}
+  if(g.dataset.p&&g.dataset.p!==S.prod){S.prod=g.dataset.p;S.tried=false}
+  go(g.dataset.go);
+});
+setInterval(()=>{const el=phone.querySelector('[data-cd]');if(!el)return;const v=cd();el.querySelectorAll('span').forEach((s,i)=>s.firstChild.nodeValue=v[i])},1000);
+
+function fit(){if(APP)return;const host=phone.parentElement,w=host.parentElement.clientWidth;if(!w)return;const k=Math.min(1,w/380);phone.style.transform=k<1?`scale(${k})`:'';host.style.width=k<1?(380*k)+'px':'';host.style.height=k<1?(797*k)+'px':''}
+window.addEventListener('resize',fit);
+
+const sheet=document.getElementById('v-sheet');
+function buildSheet(){const keep={...S};sheet.innerHTML=ORDER.map(k=>{S.tried=(k==='tryon');S.toast=null;return `<button class="mini" data-id="${k}"><div class="box"><div class="phone">${phoneHTML(k)}</div></div><div class="cap">${META[k].n}<small>${META[k].st}</small></div></button>`}).join('');Object.assign(S,keep)}
+sheet.addEventListener('click',e=>{const b=e.target.closest('.mini');if(!b)return;setMode('proto');go(b.dataset.id);window.scrollTo({top:0})});
+function setMode(m){
+  document.getElementById('m-proto').setAttribute('aria-pressed',m==='proto');
+  document.getElementById('m-sheet').setAttribute('aria-pressed',m==='sheet');
+  document.getElementById('v-proto').hidden=m!=='proto';
+  sheet.hidden=m!=='sheet';
+  if(m==='sheet')buildSheet();else fit();
+}
+document.getElementById('m-proto').onclick=()=>setMode('proto');
+document.getElementById('m-sheet').onclick=()=>setMode('sheet');
+
+/* Installable app: service worker + "add to home screen" hint for phone visitors in the browser */
+if('serviceWorker' in navigator&&location.protocol==='https:'){navigator.serviceWorker.register('sw.js').catch(()=>{})}
+(function(){
+  const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+  if(!APP||standalone)return;
+  try{if(localStorage.getItem('ma-install-hide'))return}catch(e){}
+  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
+  let deferred=null;
+  const box=document.createElement('div');box.className='install';box.setAttribute('role','dialog');box.setAttribute('aria-label','Встановити застосунок');
+  const draw=()=>{box.innerHTML=`<img src="apple-touch-icon.png" alt=""><div style="flex:1"><b>Встановіть Malva Atelier</b><p>${ios?'Натисніть «Поділитися» внизу Safari, потім «На екран „Додому“». Застосунок відкриватиметься з іконки на весь екран.':deferred?'Додайте застосунок на головний екран. Він відкриватиметься з іконки на весь екран.':'Відкрийте меню браузера ⋮ і виберіть «Додати на головний екран» або «Встановити застосунок».'}</p>${deferred?'<button class="go" id="install-go">Встановити</button>':''}</div><button class="x" id="install-x" aria-label="Закрити">×</button>`};
+  draw();document.body.appendChild(box);
+  box.addEventListener('click',async e=>{
+    if(e.target.id==='install-x'){box.remove();try{localStorage.setItem('ma-install-hide','1')}catch(_){}}
+    if(e.target.id==='install-go'&&deferred){deferred.prompt();await deferred.userChoice;deferred=null;box.remove()}
+  });
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;draw()});
+  window.addEventListener('appinstalled',()=>box.remove());
+})();
+
+/* Warm the photo cache in the background so browsing is instant after the first screen */
+window.addEventListener('load',()=>{
+  const urls=[...new Set(PR.map(p=>th(p.imgs[0])))];
+  ['MF-SS-2027-CP-005-PWD','MF-SS-2027-DR-004-PWD','MF-SS-2026-CP-036-IVY'].forEach(k=>{const p=BY[k];if(p)p.imgs.forEach(f=>urls.push(img(f)))});
+  let i=0;const next=()=>{if(i>=urls.length)return;const u=urls[i++];fetch(u).catch(()=>{}).finally(next)};
+  setTimeout(()=>{for(let k=0;k<6;k++)next()},600);
+});
+render(false);fit();
+setMode(!APP&&location.hash==='#screens'?'sheet':'proto');
+</script>
