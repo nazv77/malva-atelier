@@ -2,4 +2,4 @@
 
 Клікабельний прототип мобільного застосунку Malva Florea (SS26 і SS27).
 
-Відкрити: https://lentymortgage.github.io/malva-atelier/
+Відкрити: https://nazv77.github.io/malva-atelier/
